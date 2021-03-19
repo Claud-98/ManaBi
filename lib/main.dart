@@ -3,6 +3,7 @@ import 'package:manabi/models/yomu_kanji.dart';
 import 'package:manabi/repositories/dbhelper.dart';
 import 'package:manabi/repositories/kanji_repository.dart';
 import 'package:manabi/screens/home_screen.dart';
+import 'file:///C:/Users/claud/Desktop/manabi/lib/screens/yomu_kanji_menu.dart';
 
 
 void main() async {
@@ -24,7 +25,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.amber,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        '/yomuMenu': (context) => YomuKanjiMenu(),
+      },
     );
   }
 }
