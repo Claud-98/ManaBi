@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   path_provider: ^2.0.0
   sqflite: ^2.0.0+2
+#  animated_splash_screen: ^1.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -52,6 +53,8 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/db/database.db
+    - assets/images/Home_Background.png
+    - assets/images/Home_Background_R.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

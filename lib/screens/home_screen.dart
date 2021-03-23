@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manabi/widgets/menu_widget_button.dart';
-
 import '../custom_colors.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,35 +10,57 @@ class HomeScreen extends StatelessWidget {
     double boxSize;
     double spacer;
     double fontSize;
+    AssetImage background;
+    Alignment alignBackImage;
+    double alignX;
+    double alignY;
 
     if(mediaQueryData.orientation == Orientation.landscape){
-      boxSize = mediaQueryData.devicePixelRatio * 15 * 1.4;
-      spacer = mediaQueryData.devicePixelRatio * 10 * 1.2;
+      background = AssetImage("assets/images/Home_Background_R.png");
+      boxSize = mediaQueryData.devicePixelRatio * 15 * 1.2;
+      spacer = mediaQueryData.devicePixelRatio * 10 * 1.1;
       fontSize = 25;
+      alignBackImage = Alignment.bottomRight;
+      alignX= -0.50;
+      alignY = -0.50;
     }else {
+      background = AssetImage("assets/images/Home_Background.png");
       boxSize = mediaQueryData.devicePixelRatio * 15;
       spacer = mediaQueryData.devicePixelRatio * 10;
       fontSize = 20;
+      alignBackImage = Alignment.bottomCenter;
+      alignX= -0.20;
+      alignY = -0.70;
     }
 
+    precacheImage(background, context);
     return Scaffold(appBar: AppBar(),
-      body: Align(
-        alignment: Alignment(-0.20, -0.45),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MenuWidgetButton(buttonText: "Yomu Kanji", boxSize: boxSize,
-                  spacer: spacer, length: spacer * 9, route: '/yomuMenu',
-                fontSize: fontSize, color: CustomColors().murasaki),
-              MenuWidgetButton(buttonText: "Kaku Kanji", boxSize: boxSize,
-                  spacer: spacer, length: spacer * 9, route: '/',
-                fontSize: fontSize, color: CustomColors().orenji),
-              MenuWidgetButton(buttonText: "Settings", boxSize: boxSize,
-                  spacer: spacer, length: spacer * 7, route: '/',
-                fontSize: fontSize, color: CustomColors().chokoMinto),
-            ],
-          ),
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                alignment: alignBackImage,
+                image: background,
+                fit: BoxFit.contain
+            )
+        ),
+        child: Align(
+          alignment: Alignment(alignX, alignY),
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MenuWidgetButton(buttonText: "Yomu Kanji", boxSize: boxSize,
+                    spacer: spacer, length: spacer * 9, route: '/yomuMenu',
+                  fontSize: fontSize, color: CustomColors().murasaki),
+                MenuWidgetButton(buttonText: "Kaku Kanji", boxSize: boxSize,
+                    spacer: spacer, length: spacer * 9, route: '/kakuMenu',
+                  fontSize: fontSize, color: CustomColors().orenji),
+                MenuWidgetButton(buttonText: "Settings", boxSize: boxSize,
+                    spacer: spacer, length: spacer * 7, route: '/',
+                  fontSize: fontSize, color: CustomColors().chokoMinto),
+              ],
+            ),
+        ),
       ),
     );
   }
