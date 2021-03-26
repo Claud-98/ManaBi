@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import '../widgets/menu_card.dart';
 
+/// GameLevelMenu - Menu con tutte le unità composte dai rispettivi livelli.
+/// "type" specifica la categoria dei giochi del menu: kaku o yomu.
+
 class GameLevelMenu extends StatelessWidget {
-   //Numero dei livelli per ogni unità la lunghezza di numLevels = numUnits.
+   //Numero dei livelli per ogni unità la lunghezza di numberOfLevels = numUnits.
    final List<int> numberOfLevels;
    //Numero Unità - coincide con il numero delle cards da creare.
    final int units ;
@@ -37,7 +40,6 @@ class GameLevelMenu extends StatelessWidget {
         centerTitle: true,
       ),
       body:  SingleChildScrollView(
-
         child: Column(
           children: populateMenu(),
         ),

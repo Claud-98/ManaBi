@@ -55,6 +55,7 @@ flutter:
     - assets/db/database.db
     - assets/images/Home_Background.png
     - assets/images/Home_Background_R.png
+    - assets/images/yomu_background.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

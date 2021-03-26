@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:manabi/widgets/menu_widget_button.dart';
 import '../custom_colors.dart';
 
+/// HomeScreen - Menu principale dell'applicazione da cui è possibile navigare
+/// ai menu dei giochi di abbinamento e le impostazioni dell'applicazione.
+
 class HomeScreen extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
+    double unitHeightValue = mediaQueryData.size.height * 0.01;
     double boxSize;
     double spacer;
     double fontSize;
@@ -19,7 +24,7 @@ class HomeScreen extends StatelessWidget {
       background = AssetImage("assets/images/Home_Background_R.png");
       boxSize = mediaQueryData.devicePixelRatio * 15 * 1.2;
       spacer = mediaQueryData.devicePixelRatio * 10 * 1.1;
-      fontSize = 25;
+      fontSize = unitHeightValue * 6;
       alignBackImage = Alignment.bottomRight;
       alignX= -0.50;
       alignY = -0.50;
@@ -27,7 +32,7 @@ class HomeScreen extends StatelessWidget {
       background = AssetImage("assets/images/Home_Background.png");
       boxSize = mediaQueryData.devicePixelRatio * 15;
       spacer = mediaQueryData.devicePixelRatio * 10;
-      fontSize = 20;
+      fontSize = unitHeightValue * 3;
       alignBackImage = Alignment.bottomCenter;
       alignX= -0.20;
       alignY = -0.70;

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manabi/custom_colors.dart';
 
+/// MenuWidgetButton - Custom button widget della Home Screen
+
 class MenuWidgetButton extends StatelessWidget {
   final String buttonText;
   final double boxSize;
@@ -10,7 +12,6 @@ class MenuWidgetButton extends StatelessWidget {
   final double fontSize;
   final String route;
   final Color color;
-
 
   MenuWidgetButton({Key key, @required this.buttonText, @required this.boxSize,
     @required this.spacer, @required this.length, @required this.fontSize,

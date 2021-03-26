@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+/// CustomColors - una classe di colori personalizzati con bad naming-sense.
 class CustomColors{
   final murasaki = const Color(0xFFF3518C);
   final orenji =  const Color(0xFFF6B96C);

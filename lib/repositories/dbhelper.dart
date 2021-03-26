@@ -18,6 +18,8 @@ class DBHelper {
   static const romaji = 'romaji';
   static const translation = 'translation';
   static const unit = 'unit';
+  static const level = 'level';
+
 
   static void dbLogging(String functionName, String sql,
       [List<Map<String, dynamic>> selectQueryResult,
@@ -42,7 +44,8 @@ class DBHelper {
       $reading TEXT,
       $romaji TEXT,
       $translation TEXT,
-      $unit INTEGER)''';
+      $unit INTEGER,
+      $level INTEGER),''';
 
     await db.execute(todoSql);
   }

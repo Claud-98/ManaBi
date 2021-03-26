@@ -26,6 +26,25 @@ class KanjiRepository {
     return yomuKanji;
   }
 
+  static Future<List<YomuKanji>> getYomuKanjiOfUnitLevel(int unit, int level,) async {
+    final sql = '''SELECT * FROM ${DBHelper.yomuKanjiTable}
+    WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''';
+
+    List<dynamic> params = [unit, level];
+    final data = await db.rawQuery(sql, params);
+
+    final List<YomuKanji> yomuKanjis = [];
+
+    for (final el in data) {
+      final yomuKanji = YomuKanji.fromMapObject(el);
+      yomuKanjis.add(yomuKanji);
+    }
+
+    return yomuKanjis;
+  }
+
+
+/*
   static Future<void> addYomuKanjiRawQuery(YomuKanji yomuKanji) async {
     final sql = '''INSERT INTO ${DBHelper.yomuKanjiTable}(
                     ${DBHelper.kanji},
@@ -40,6 +59,7 @@ class KanjiRepository {
     final result = await db.rawInsert(sql, params);
     DBHelper.dbLogging('Add Yomu Kanji', sql, null, result, params);
   }
+*/
 
   static Future<void> addYomuKanji(YomuKanji yomuKanji) async {
     final result = await db.insert(DBHelper.yomuKanjiTable, yomuKanji.toMap(),
