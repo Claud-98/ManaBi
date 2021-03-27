@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomeScreen(),
-        '/yomuMenu': (context) => GameLevelMenu(numberOfLevels: [3, 4, 5, 3, 2, 4, 5],
+        '/yomuMenu': (context) => GameLevelMenu(numberOfLevels: [7, 4, 5, 3, 2, 4, 5],
             units: 7, type: "yomu"),
         '/kakuMenu': (context) => GameLevelMenu(numberOfLevels: [3, 4, 4, 5, 2, 4, 5],
             units: 7, type: "kaku"),

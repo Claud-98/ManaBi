@@ -27,7 +27,7 @@ class _MatchingGameState extends State<MatchingGame> {
         future: kanjiFetched,
         builder: (context, snapshot){
           if(snapshot.hasData)
-              return YomuGame(data: snapshot.data);
+              return YomuGame(data: snapshot.data, translation: true, romaji: false);
           else if(snapshot.hasError)
             return Text('Error');
           else

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:manabi/custom_colors.dart';
-import 'package:manabi/screens/matching_game.dart';
 import 'package:manabi/widgets/menu_card_button_widget.dart';
 import 'package:manabi/widgets/menu_card_level_text_label.dart';
 
@@ -25,46 +25,39 @@ class MenuCard extends StatefulWidget {
 
 class _MenuCardState extends State<MenuCard> {
 
-  List<Widget> populateMenu(int numLevels, int unitNumber, Color color,
-      MediaQueryData mediaQueryData, double screenH, double screenW, String type){
-    final unitHeightValue = MediaQuery.of(context).size.height * 0.01;
+  Widget populateCard(int numLevels, int unitNumber, Color color, String type,
+      double cardH, double cardW, double textSize, double padding){
     List<Widget> menu = [];
-    double padding;
-    double buttonW;
-    double buttonH;
-    double multiplier;
 
-
-    if(mediaQueryData.orientation == Orientation.landscape){
-      buttonW = screenW/10;
-      buttonH = screenH/2.5;
-      padding= screenW/50;
-      multiplier = 7.5;
-
-    }else {
-      buttonW = screenW/10;
-      buttonH = screenH/7.5;
-      padding= screenW/50;
-      multiplier = 3.75;
+    for(int i=1; i < numLevels + 1; i++){
+        menu.add(
+            Padding(
+              padding: EdgeInsets.all(padding),
+              child: MenuCardButtonWidget( color: color,
+                unitNumber: unitNumber, levelNumber: i , textSize: textSize,
+                type: type,),
+            )
+        );
     }
 
-    for(int i=0; i < numLevels + 1; i++){
-      if(i == 0){
-        menu.add(
-          MenuCardLevelTextLabel(color: color, padding: padding, textSize:
-            unitHeightValue * multiplier, unitNumber: unitNumber)
-        );
-      }else{
-        menu.add(
-            MenuCardButtonWidget(buttonW: buttonW, buttonH: buttonH, color: color,
-            unitNumber: unitNumber, levelNumber: i , textSize: unitHeightValue *
-              multiplier, type: "yomu",)
-        );
-      }
-      menu.add(Spacer());
-    }
-
-    return  menu;
+    return  Row(
+      children: [
+        MenuCardLevelTextLabel(color: color, padding: padding, textSize:
+        textSize, unitNumber: unitNumber),
+        Spacer(),
+        Container(
+          height: cardH/1.5,
+          width: cardW/1.35,
+          child: GridView.count(
+            childAspectRatio: 2,
+            scrollDirection: Axis.horizontal,
+            crossAxisCount: 1,
+            children: menu,
+          ),
+        ),
+        Spacer(),
+      ],
+    );
   }
 
 
@@ -79,16 +72,24 @@ class _MenuCardState extends State<MenuCard> {
     final int unitNumber = widget.unitNumber;
     final int indexColor = widget.indexColor;
     final String type = widget.type;
+    final unitHeightValue = MediaQuery.of(context).size.height * 0.01;
     double cardSizeH;
     double cardSizeW;
     Color color;
+    double padding;
+    double multiplier;
 
     if(mediaQueryData.orientation == Orientation.landscape){
       cardSizeW =screenWidth/1.2;
       cardSizeH = screenHeight/1.5;
+      padding= screenWidth/50;
+      multiplier = 7.5;
+
     }else {
       cardSizeW =screenWidth/1.15;
       cardSizeH = screenHeight/4;
+      padding= screenWidth/50;
+      multiplier = 3.75;
     }
     if(indexColor == 1)
       color = CustomColors().murasaki;
@@ -111,10 +112,10 @@ class _MenuCardState extends State<MenuCard> {
       child: Container(
           width: cardSizeW,
           height: cardSizeH,
-          child: Row(
-            children: populateMenu(numberOfLevels, unitNumber, color,
-                mediaQueryData, screenHeight, screenWidth, type),
-          )
+          child: populateCard(numberOfLevels, unitNumber, color,
+                  type, cardSizeH, cardSizeW, multiplier * unitHeightValue,
+          padding),
+
       ),
 
     );
