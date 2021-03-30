@@ -7,9 +7,12 @@ class MatchingGame extends StatefulWidget {
   final int unit;
   final int levelNumber;
   final String type;
+  final bool translation;
+  //final bool romaji;
 
   MatchingGame({Key key, @required this.unit,
-    @required this.levelNumber, @required this.type}) : super(key: key);
+    @required this.levelNumber, @required this.type, this.translation,
+  }) : super(key: key);
 
   @override
   _MatchingGameState createState() => _MatchingGameState();
@@ -19,15 +22,18 @@ class _MatchingGameState extends State<MatchingGame> {
 
   @override
   Widget build(BuildContext context) {
+    bool translation = widget.translation;
+    //bool romaji = widget.romaji;
     Future<List<YomuKanji>> kanjiFetched =
-      //KanjiRepository.getYomuKanjiOfUnitLevel(widget.unit, widget.levelNumber);
-      KanjiRepository.getAllYomuKanji();
+      KanjiRepository.getYomuKanjiOfUnitLevel(widget.unit, widget.levelNumber);
+      //KanjiRepository.getAllYomuKanji();
     return Scaffold(
       body: FutureBuilder<List<YomuKanji>>(
         future: kanjiFetched,
         builder: (context, snapshot){
           if(snapshot.hasData)
-              return YomuGame(data: snapshot.data, translation: true, romaji: false);
+              return YomuGame(data: snapshot.data, translation: translation,
+                  romaji: false);
           else if(snapshot.hasError)
             return Text('Error');
           else

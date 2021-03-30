@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:manabi/screens/matching_game.dart';
+
+typedef void IntCallback(int id, int level);
 
 class MenuCardButtonWidget extends StatelessWidget {
+  final IntCallback onSonChanged;
   final Color color;
   final int unitNumber;
   final int levelNumber;
@@ -9,7 +11,7 @@ class MenuCardButtonWidget extends StatelessWidget {
   final double textSize;
 
   const MenuCardButtonWidget({Key key, this.color, this.unitNumber,
-    this.levelNumber, this.type, this.textSize}) : super(key: key);
+    this.levelNumber, this.type, this.textSize, this.onSonChanged}) : super(key: key);
 
 
   @override
@@ -17,13 +19,11 @@ class MenuCardButtonWidget extends StatelessWidget {
     return Container(
         child: TextButton(
             onPressed: (){
-              if (type == "yomu"){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>
-                        MatchingGame(unit: unitNumber,
-                          levelNumber: levelNumber, type: type,)));
-              }
+             if (type == "yomu"){
+               onSonChanged(unitNumber, levelNumber);
+              }else if(type == "kaku"){
+               //TODO: navigo alla schermata matching_game x kakuKanji
+             }
 
             },
             style: TextButton.styleFrom(
