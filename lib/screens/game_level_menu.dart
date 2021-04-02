@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import '../widgets/menu_card.dart';
 
@@ -8,7 +9,7 @@ class GameLevelMenu extends StatelessWidget {
    //Numero dei livelli per ogni unità la lunghezza di numberOfLevels = numUnits.
    final List<int> numberOfLevels;
    //Numero Unità - coincide con il numero delle cards da creare.
-   final int units ;
+   final int units;
    final String type;
 
   GameLevelMenu({Key key, @required this.numberOfLevels,
@@ -36,8 +37,20 @@ class GameLevelMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(type.toUpperCase() + " KANJI"),
+        title: AutoSizeText(type.toUpperCase() + " KANJI"),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, "/settings");
+            },
+
+          )
+        ],
       ),
       body:  SingleChildScrollView(
         child: Column(

@@ -46,7 +46,7 @@ class PopUpMenuCard extends StatelessWidget {
                         levelNumber: levelSelected, type: type,
                         translation: false,)));
             },
-            child: Text("KANA",
+            child: Text("PRONUNCIA",
             style: textStyle()),
             color: color,
           ),

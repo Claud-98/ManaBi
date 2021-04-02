@@ -19,6 +19,10 @@ class DBHelper {
   static const translation = 'translation';
   static const unit = 'unit';
   static const level = 'level';
+  static const yomuScoreTable = 'YomuScore';
+  static const yomuScoreRead = 'YomuScoreRead';
+  static const yomuScoreTran = 'YomuScoreTran';
+  static const kakuScore = 'KakuScore';
 
 
   static void dbLogging(String functionName, String sql,
@@ -38,7 +42,7 @@ class DBHelper {
     }
   }
 
-  Future<void> createYomuTable(Database db) async {
+  Future<void> createYomuKanjiTable(Database db) async {
     final todoSql = '''CREATE TABLE $yomuKanjiTable (
       $kanji TEXT PRIMARY KEY,
       $reading TEXT,
@@ -47,6 +51,15 @@ class DBHelper {
       $unit INTEGER,
       $level INTEGER),''';
 
+    await db.execute(todoSql);
+  }
+
+  Future<void> createYomuScoreTable(Database db) async {
+    final todoSql = '''CREATE TABLE LevelScore (
+      $unit INTEGER,
+      $level INTEGER,
+      $yomuScoreRead INTEGER,
+      $yomuScoreTran INTEGER),''';
     await db.execute(todoSql);
   }
 
@@ -77,6 +90,7 @@ class DBHelper {
   }
 
   Future<void> onCreate(Database db, int version) async {
-    await createYomuTable(db);
+    await createYomuKanjiTable(db);
+    await createYomuScoreTable(db);
   }
 }

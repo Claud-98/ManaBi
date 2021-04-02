@@ -5,8 +5,8 @@ import 'package:manabi/custom_colors.dart';
 
 class EndGameWidget extends StatelessWidget {
 
-  final double score;
-  final double best;
+  final int score;
+  final int best;
   final double textSize;
   final VoidCallback repeatLevel;
 
@@ -63,7 +63,7 @@ class EndGameWidget extends StatelessWidget {
 
               children: [
                 Spacer(),
-                AutoSizeText("BEST: $score",
+                AutoSizeText("BEST: $best",
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: textSize,
@@ -72,7 +72,7 @@ class EndGameWidget extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                AutoSizeText("SCORE: $best",
+                AutoSizeText("SCORE: $score",
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: textSize,

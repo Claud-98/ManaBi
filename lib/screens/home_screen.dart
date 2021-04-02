@@ -39,7 +39,20 @@ class HomeScreen extends StatelessWidget {
     }
 
     precacheImage(background, context);
-    return Scaffold(appBar: AppBar(),
+    return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, "/settings");
+            },
+          )
+        ],
+      ),
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -61,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                     spacer: spacer, length: spacer * 9, route: '/kakuMenu',
                   fontSize: fontSize, color: CustomColors().orenji),
                 MenuWidgetButton(buttonText: "Settings", boxSize: boxSize,
-                    spacer: spacer, length: spacer * 7, route: '/',
+                    spacer: spacer, length: spacer * 7, route: '/settings',
                   fontSize: fontSize, color: CustomColors().chokoMinto),
               ],
             ),

@@ -1,12 +1,11 @@
 import 'package:manabi/models/yomu_kanji.dart';
-import 'package:sqflite/sqflite.dart';
 
 import 'dbhelper.dart';
 
 class KanjiRepository {
   static Future<List<YomuKanji>> getAllYomuKanji() async {
     final results = await db.query(DBHelper.yomuKanjiTable);
-    List<YomuKanji> yomuKanjis = List();
+    List<YomuKanji> yomuKanjis = [];
 
     for (final el in results) {
       final yomuKanji = YomuKanji.fromMapObject(el);
@@ -43,29 +42,38 @@ class KanjiRepository {
     return yomuKanjis;
   }
 
+  static Future<int> getYomuLevelBestScore(int unit, int level, bool translation) async {
+    String sql;
+    String rowName;
+    if(!translation){
+      sql = '''SELECT ${DBHelper.yomuScoreRead} FROM ${DBHelper.yomuScoreTable}
+    WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''';
+      rowName = DBHelper.yomuScoreRead;
+    }else{
+      sql = '''SELECT ${DBHelper.yomuScoreTran} FROM ${DBHelper.yomuScoreTable}
+    WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''';
+      rowName = DBHelper.yomuScoreTran;
+    }
 
-/*
-  static Future<void> addYomuKanjiRawQuery(YomuKanji yomuKanji) async {
-    final sql = '''INSERT INTO ${DBHelper.yomuKanjiTable}(
-                    ${DBHelper.kanji},
-                    ${DBHelper.reading},
-                    ${DBHelper.romaji},
-                    ${DBHelper.translation},
-                    ${DBHelper.unit})
-                  VALUES (?,?,?,?,?)
-                ''';
-    List<dynamic> params = [yomuKanji.kanji, yomuKanji.reading,
-      yomuKanji.romaji, yomuKanji.translation, yomuKanji.unit];
-    final result = await db.rawInsert(sql, params);
-    DBHelper.dbLogging('Add Yomu Kanji', sql, null, result, params);
+    List<dynamic> params = [unit, level];
+    final data = await db.rawQuery(sql, params);
+    final int levelScore = data[0][rowName];
+    return levelScore;
   }
-*/
 
-  static Future<void> addYomuKanji(YomuKanji yomuKanji) async {
-    final result = await db.insert(DBHelper.yomuKanjiTable, yomuKanji.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-    DBHelper.dbLogging(
-        'Add Yomu Kanji', 'insert', null, result, [yomuKanji.toMap()]);
+  static Future<void> updateYomuLevelBestScore(int score, int unit, int level,
+      bool translation) async {
+    if(!translation){
+      db.rawUpdate('''UPDATE ${DBHelper.yomuScoreTable} 
+      SET ${DBHelper.yomuScoreRead} = ? 
+      WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''',
+          [score, unit, level]);
+    }else{
+      db.rawUpdate('''UPDATE ${DBHelper.yomuScoreTable} 
+      SET ${DBHelper.yomuScoreTran} = ? 
+      WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''',
+          [score, unit, level]);
+    }
   }
 
 }

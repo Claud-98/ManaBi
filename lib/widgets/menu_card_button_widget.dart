@@ -17,6 +17,7 @@ class MenuCardButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
         child: TextButton(
             onPressed: (){
              if (type == "yomu"){
@@ -27,6 +28,7 @@ class MenuCardButtonWidget extends StatelessWidget {
 
             },
             style: TextButton.styleFrom(
+              elevation: 3,
               backgroundColor: color,
               textStyle: TextStyle(
                 color: Colors.white,

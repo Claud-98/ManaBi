@@ -20,7 +20,6 @@ class MenuCardLevelTextLabel extends StatelessWidget {
               Container(
                 width: padding/2,
               ),
-
               Center(
                 child:
                 RotatedBox(

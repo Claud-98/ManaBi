@@ -26,6 +26,9 @@ dependencies:
   path_provider: ^2.0.0
   sqflite: ^2.0.0+2
   auto_size_text: ^2.1.0
+  shared_preferences: ^2.0.5
+  confetti: ^0.5.5
+
 #  animated_splash_screen: ^1.1.0
 
   # The following adds the Cupertino Icons font to your application.
