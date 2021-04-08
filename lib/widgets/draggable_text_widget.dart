@@ -14,35 +14,29 @@ class DraggableTextWidget extends StatelessWidget {
     this.height, this.width, this.textSize,})  : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          color: color,
-          child: Container(
-            height: height,
-              width: width,
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(height * 0.15),
-                  child: AutoSizeText(widgetText,
-                  style: TextStyle(
-                    fontSize: textSize,
-                    color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                  ),
+    return Card(
+      color: color,
+      child: Container(
+        height: height,
+          width: width,
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(height * 0.1),
+              child: AutoSizeText(widgetText,
+              style: TextStyle(
+                fontSize: textSize,
+                color: Colors.white,
                 ),
-              )
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-            )
-        ),
-        Container(
-          height: height/4,
+                minFontSize: 1,
+                textAlign: TextAlign.center,
+                maxLines: 3,
+              ),
+            ),
+          )
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
         )
-      ],
     );
   }
 }

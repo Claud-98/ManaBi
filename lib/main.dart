@@ -6,8 +6,10 @@ import 'package:manabi/screens/game_level_menu.dart';
 import 'package:manabi/screens/settings_screen.dart';
 
 
+
 void main() async {
   await DBHelper().initDatabase();
+
   runApp(MyApp());
 }
 
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => HomeScreen(),
         '/yomuMenu': (context) => GameLevelMenu(numberOfLevels: [7, 4, 5, 3, 2, 4, 5],
             units: 7, type: "yomu"),
-        '/kakuMenu': (context) => GameLevelMenu(numberOfLevels: [3, 4, 4, 5, 2, 4, 5],
+        '/kakuMenu': (context) => GameLevelMenu(numberOfLevels: [4, 4, 4, 5, 2, 4, 5],
             units: 7, type: "kaku"),
         '/settings': (context) => Settings(),
       },

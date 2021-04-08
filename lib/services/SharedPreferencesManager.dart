@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesManager {
@@ -25,18 +24,6 @@ class SharedPreferencesManager {
   static Future<SharedPreferences> getSharedPreferencesItem(String key) async {
     SharedPreferences sharedPreferences = await getSharedPreferencesInstance();
     return sharedPreferences.get(key);
-  }
-
-  static bool getSharedPreferencesItemValue(String key){
-    Future future = getSharedPreferencesItem(key);
-
-    FutureBuilder(future: future,
-        builder: (context, snapshot){
-          if (snapshot.hasData)
-            return snapshot.data;
-          return null;
-        });
-    return null;
   }
 
   static void resetSharedPreferences(List<String> list) async{

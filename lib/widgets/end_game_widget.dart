@@ -125,7 +125,7 @@ class EndGameWidget extends StatelessWidget {
                 Spacer(),
                 MaterialButton(
                   onPressed: (){
-                    Navigator.pushNamed(context, "/");
+                    Navigator.popUntil(context, ModalRoute.withName("/"));
                   },
                   child: Icon(
                     Icons.home,

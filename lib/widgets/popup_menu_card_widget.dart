@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:manabi/screens/matching_game.dart';
 
@@ -34,53 +35,63 @@ class PopUpMenuCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Spacer(),
-        Spacer(),
-        ButtonTheme(
-          height: height/5,
-          child: MaterialButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>
-                      MatchingGame(unit: unitNumber,
-                        levelNumber: levelSelected, type: type,
-                        translation: false,)));
-            },
-            child: Text("PRONUNCIA",
-            style: textStyle()),
-            color: color,
-          ),
-        ),
-        Spacer(),
-        ButtonTheme(
-          height: height/5,
-          child: MaterialButton(
-            onPressed: () {
-              if (type == "yomu") {
+        Flexible(
+          child: ButtonTheme(
+            height: height/4,
+            child: MaterialButton(
+              onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>
                         MatchingGame(unit: unitNumber,
                           levelNumber: levelSelected, type: type,
-                          translation: true,)));
-              }
-            },
-            child: Text("TRADUZIONE",
-            style: textStyle()),
-            color: color,
+                          translation: false,)));
+              },
+              child: AutoSizeText("PRONUNCIA",
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  style: textStyle()),
+              color: color,
+            ),
           ),
         ),
         Spacer(),
-        ButtonTheme(
-          height: height/5,
-          child: MaterialButton(
-            onPressed: backButtonReset,
-            child: Text("BACK",
-            style: textStyle(),),
-            color: color,
+        Flexible(
+          child: ButtonTheme(
+            height: height/4,
+            child: MaterialButton(
+              onPressed: () {
+                if (type == "yomu") {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>
+                          MatchingGame(unit: unitNumber,
+                            levelNumber: levelSelected, type: type,
+                            translation: true,)));
+                }
+              },
+              child: AutoSizeText("TRADUZIONE",
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  style: textStyle()),
+              color: color,
+            ),
           ),
         ),
         Spacer(),
+        Flexible(
+          child: ButtonTheme(
+            height: height/4,
+            child: MaterialButton(
+              onPressed: backButtonReset,
+              child: AutoSizeText("BACK",
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                style: textStyle(),),
+              color: color,
+            ),
+          ),
+        ),
         Spacer(),
       ],
     );

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:manabi/models/yomu_data_required_for_build.dart';
 import 'package:manabi/repositories/kanji_repository.dart';
 import 'package:manabi/screens/yomu_game.dart';
-import 'package:manabi/services/SharedPreferencesManager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class MatchingGame extends StatefulWidget {
   final int unit;
@@ -33,6 +32,7 @@ class _MatchingGameState extends State<MatchingGame> {
     });
   }
 */
+/*
   Future<YomuDataRequiredForBuild> _fetchAllData(int unit, int level, bool translation) async {
     SharedPreferences prefs = await
       SharedPreferencesManager.getSharedPreferencesInstance();
@@ -44,41 +44,35 @@ class _MatchingGameState extends State<MatchingGame> {
       romaji: (prefs.getBool(SharedPreferencesManager.romajiKey) ?? false),
     );
   }
-
+*/
   @override
   void initState() {
     super.initState();
-    _dataRequiredForBuild = _fetchAllData(widget.unit, widget.levelNumber, widget.translation );
+    _dataRequiredForBuild = KanjiRepository().fetchAllYomuData(widget.unit,
+        widget.levelNumber, widget.translation);
   }
 
   @override
   Widget build(BuildContext context) {
 
-    /*
-    bool romaji = widget.romaji;
-    Future<List<YomuKanji>> kanjiFetched =
-    KanjiRepository.getYomuKanjiOfUnitLevel(widget.unit, widget.levelNumber);
-    _loadRomajiState();
-    KanjiRepository.getAllYomuKanji();*/
-
     return Scaffold(
       body: FutureBuilder<YomuDataRequiredForBuild>(
         future: _dataRequiredForBuild,
         builder: (context, snapshot){
-          int unit = widget.unit;
-          int level = widget.levelNumber;
-          bool translation = widget.translation;
+          final int unit = widget.unit;
+          final int level = widget.levelNumber;
+          final bool translation = widget.translation;
 
           if(snapshot.hasData) {
 
             return YomuGame(data: snapshot.data.kanjiLevelList,unit: unit,
               level: level, translation: translation, romaji: snapshot.data.romaji,
-              bestScore: snapshot.data.bestScore,);
+              bestScore: snapshot.data.bestScore);
           }
           else if(snapshot.hasError)
             return Text('Error');
           else
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
         },
       ),
     );

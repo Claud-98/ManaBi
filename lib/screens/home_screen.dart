@@ -73,7 +73,7 @@ class HomeScreen extends StatelessWidget {
                 MenuWidgetButton(buttonText: "Kaku Kanji", boxSize: boxSize,
                     spacer: spacer, length: spacer * 9, route: '/kakuMenu',
                   fontSize: fontSize, color: CustomColors().orenji),
-                MenuWidgetButton(buttonText: "Settings", boxSize: boxSize,
+                MenuWidgetButton(buttonText: "Statistiche", boxSize: boxSize,
                     spacer: spacer, length: spacer * 7, route: '/settings',
                   fontSize: fontSize, color: CustomColors().chokoMinto),
               ],

@@ -6,7 +6,6 @@ import 'package:manabi/repositories/kanji_repository.dart';
 import 'package:manabi/widgets/all_confetti_widget.dart';
 import 'package:manabi/widgets/draggable_text_widget.dart';
 import 'package:manabi/widgets/end_game_widget.dart';
-
 import '../custom_colors.dart';
 
 class YomuGame extends StatefulWidget {
@@ -41,6 +40,7 @@ class _YomuGameState extends State<YomuGame> {
   bool _gameOver;
   int _addMatch;
   int _subNotMatch;
+  bool _perfect;
 
 
   Color pickColor(int index){
@@ -87,6 +87,7 @@ class _YomuGameState extends State<YomuGame> {
       _items2 = List<YomuKanji>.from(_items);
       _items.shuffle();
       _items2.shuffle();
+      _perfect = true;
     });
   }
 
@@ -99,7 +100,10 @@ class _YomuGameState extends State<YomuGame> {
     _level = widget.level;
     _translation = widget.translation;
     _best = widget.bestScore;
-    _addMatch = ((1 / _items.length) * 100).truncate();
+    if(_items.length != 0)
+      _addMatch = (100 / _items.length).truncate();
+    else
+      _addMatch = 0;
     _subNotMatch = (_addMatch/2).truncate();
   }
 
@@ -131,18 +135,18 @@ class _YomuGameState extends State<YomuGame> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: col1,
             ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: col2,
             )
           ],
         );
     }else{
         return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: map,
         );
       }
@@ -165,15 +169,20 @@ class _YomuGameState extends State<YomuGame> {
 
       return DragTarget<YomuKanji>(
         onAccept: (receivedItem){
+
             if(item.kanji == receivedItem.kanji){
               setState(() {
                 _items.remove(receivedItem);
                 _items2.remove(item);
-                _score+=_addMatch;
+                if(_perfect && _items.length == 0)
+                  _score = 100;
+                else
+                  _score += _addMatch;
               });
             }else{
               setState(() {
                 _score-=_subNotMatch;
+                _perfect = false;
               });
             }
           },
@@ -195,18 +204,18 @@ class _YomuGameState extends State<YomuGame> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: col1,
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: col2,
           )
         ],
       );
     }else{
       return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: map,
       );
     }
@@ -226,17 +235,17 @@ class _YomuGameState extends State<YomuGame> {
   @override
   Widget build(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
+    double appBarSize = AppBar().preferredSize.height;
     final unitHeightValue = _mediaQueryData.size.height * 0.01;
-    final PreferredSizeWidget appBar = AppBar();
     final double screenHeight = _mediaQueryData.size.height -
-        appBar.preferredSize.height - _mediaQueryData.padding.top;
+        appBarSize - _mediaQueryData.padding.top;
     _translation = widget.translation;
     _romaji = widget.romaji;
     double containerWidth;
     double itemHeight;
     double itemWidth;
     double multiplier;
-    double appBarSize = appBar.preferredSize.height;
+
     AssetImage image = AssetImage("assets/images/yomu_background.png");
 
     if(_mediaQueryData.orientation == Orientation.landscape){
@@ -247,13 +256,13 @@ class _YomuGameState extends State<YomuGame> {
 
     }else {
       containerWidth = _mediaQueryData.size.width/2.5;
-      itemHeight = screenHeight/12;
-      itemWidth = _mediaQueryData.size.width/3.5;
+      itemHeight = screenHeight/11;
+      itemWidth = _mediaQueryData.size.width/3.25;
       multiplier = 3.75;
     }
 
     if(_items.length == 0) {
-      updateBestScore(_score.truncate(), _best, _unit, _level, _translation);
+      updateBestScore(_score, _best, _unit, _level, _translation);
       _gameOver = true;
 
       //aggiorno la foto di sfondo con un plain backgroud;
@@ -267,17 +276,6 @@ class _YomuGameState extends State<YomuGame> {
         child: AppBar(
           centerTitle: true,
           title: AutoSizeText('Score: ' + "$_score" +  ' Best: ' + "$_best",),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, "/settings");
-              },
-            )
-          ],
 
         ),
       ),

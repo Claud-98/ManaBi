@@ -7,6 +7,8 @@ class CustomColors{
   final reddo = const Color(0xFFDE3A5D);
   final blackGround = const Color(0xFF525252);
   final nezumihiro = const Color(0xFFDADADA);
+  final halfNezumi = const Color(0xFFAFAFAF);
+
 
 
   const CustomColors();

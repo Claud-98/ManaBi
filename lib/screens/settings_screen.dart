@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:manabi/repositories/kanji_repository.dart';
 import 'package:manabi/services/SharedPreferencesManager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -17,9 +17,9 @@ class _SettingsState extends State<Settings> {
   }
 
   _loadRomajiState() async {
-    SharedPreferences prefs = await SharedPreferencesManager.getSharedPreferencesInstance();
+   bool _romaji = await KanjiRepository().getRomajiState();
     setState(() {
-      _romaji = (prefs.getBool(SharedPreferencesManager.romajiKey) ?? false);
+      this._romaji = _romaji ;
     });
   }
 
