@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:manabi/custom_colors.dart';
@@ -25,9 +28,20 @@ class MenuCard extends StatefulWidget {
 }
 
 class _MenuCardState extends State<MenuCard> {
-  int unitSelected;
-  int levelSelected;
+  int _unitSelected;
+  int _levelSelected;
+  bool _timerOn = true;
+  Timer _timer;
 
+  @override
+  void initState(){
+    super.initState();
+    _timer = Timer(Duration(seconds: 5), (){
+      setState(() {
+        _timerOn = false;
+      });
+    });
+  }
 
   Widget populateCard(int numLevels, int unitNumber, Color color, String type,
       double cardH, double cardW, double textSize, double padding){
@@ -55,7 +69,7 @@ class _MenuCardState extends State<MenuCard> {
         AnimatedSwitcher(
           duration: Duration(seconds: 5),
             child: updateWidgetVisibility(unitNumber, cardH, cardW, menu, type,
-                color, textSize),
+                color, textSize, numLevels),
         ),
         Spacer(),
       ],
@@ -64,38 +78,69 @@ class _MenuCardState extends State<MenuCard> {
 
   void menuCardBackReset(){
     setState(() {
-      unitSelected = 0;
-      levelSelected = 0;
+      _unitSelected = 0;
+      _levelSelected = 0;
     });
   }
 
   void updateUnitSelectedAndLevelSelected(int newId, int levelSelected) {
     setState(() {
-      unitSelected = newId;
-      this.levelSelected = levelSelected;
+      _unitSelected = newId;
+      this._levelSelected = levelSelected;
     });
   }
 
   Widget updateWidgetVisibility(int unitNumber, double cardH, double cardW, menu,
-      String type, Color color, double textSize) {
+      String type, Color color, double textSize, int numLevels) {
 
-    if(unitSelected != unitNumber)
+    if(_unitSelected != unitNumber) {
+
+
+
+
       return Container(
-        height: cardH/1.5,
+        height: cardH/1.1,
         width: cardW/1.35,
-        child: GridView.count(
-          childAspectRatio: 2,
-          scrollDirection: Axis.horizontal,
-          crossAxisCount: 1,
-          children: menu,
+        child: Stack(
+          children: [
+            Center(
+              child: Container(
+                height: cardH/1.5,
+                width: cardW/1.35,
+                child: GridView.count(
+                    childAspectRatio: 2,
+                    scrollDirection: Axis.horizontal,
+                    crossAxisCount: 1,
+                    children: menu,
+                ),
+              ),
+            ),
+            if(numLevels > 5)
+            AnimatedOpacity(
+              opacity: _timerOn ? 0.5 : 0.0,
+              duration: Duration(seconds: 3),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: cardH/10,
+                  width: cardW/1.35,
+                  color: CustomColors.halfNezumi,
+                  child: Center(
+                    child: AutoSizeText("<<   Scroll to show more levels   >>",
+                    textAlign: TextAlign.center,),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       );
-    else
+    } else
       return Container(
         height: cardH,
         width: cardW/2.5,
         child: PopUpMenuCard(unitNumber: unitNumber,
-          levelSelected: levelSelected, type: type, color: color,
+          levelSelected: _levelSelected, type: type, color: color,
           width: cardW, height: cardH, backButtonReset: menuCardBackReset,
           textSize: textSize/1.5,),
       );
@@ -132,15 +177,15 @@ class _MenuCardState extends State<MenuCard> {
     }
 
     if(indexColor == 1)
-      color = CustomColors().murasaki;
+      color = CustomColors.murasaki;
     if(indexColor == 2)
-      color = CustomColors().orenji;
+      color = CustomColors.orenji;
     if(indexColor == 3)
-      color = CustomColors().chokoMinto;
+      color = CustomColors.chokoMinto;
 
 
     return Card(
-      color: CustomColors().blackGround,
+      color: CustomColors.blackGround,
       elevation: 5,
       margin: const EdgeInsets.only(bottom: 10, top: 10),
       shape: RoundedRectangleBorder(
@@ -157,5 +202,10 @@ class _MenuCardState extends State<MenuCard> {
           padding),
       ),
     );
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
   }
 }

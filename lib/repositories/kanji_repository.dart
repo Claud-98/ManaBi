@@ -5,8 +5,7 @@ import 'package:manabi/models/yomu_kanji.dart';
 import 'package:manabi/services/KakuKanjiApiProvider.dart';
 import 'package:manabi/services/SharedPreferencesManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'dbhelper.dart';
+import '../services/dbhelper.dart';
 
 class KanjiRepository {
   KakuKanjiApiProvider _apiProvider = KakuKanjiApiProvider();
@@ -33,7 +32,7 @@ class KanjiRepository {
     return yomuKanji;
   }
 
-  static Future<List<YomuKanji>> getYomuKanjiOfUnitLevel(int unit, int level,) async {
+  Future<List<YomuKanji>> getYomuKanjiOfUnitLevel(int unit, int level,) async {
     final sql = '''SELECT * FROM ${DBHelper.yomuKanjiTable}
     WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''';
 
@@ -182,7 +181,5 @@ class KanjiRepository {
     WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''', [score, unit, level]);
 
   }
-
-
 
 }

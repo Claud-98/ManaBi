@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:manabi/custom_colors.dart';
 import 'package:manabi/models/kaku_kanji.dart';
 import 'package:manabi/repositories/kanji_repository.dart';
+import 'package:manabi/screens/kanji_details_screen.dart';
 import 'package:manabi/widgets/all_confetti_widget.dart';
 import 'package:manabi/widgets/end_game_widget.dart';
 import 'package:manabi/widgets/kaku_kanji_box.dart';
@@ -53,7 +54,7 @@ class _KakuGameState extends State<KakuGame> {
     _kanji = widget.kanji; // da spostare in intGame anche riga sotto
     _kunAndOnYomi = widget.kunAndOnYomi;
     _romaji = widget.romaji;
-    _colors = initColors();
+    _colors = CustomColors.initColorsKaku(30);
     _best = widget.bestScore;
     initGame();
     _addMatch = (100 / _items.length).truncate();
@@ -109,35 +110,6 @@ class _KakuGameState extends State<KakuGame> {
     );
   }
 
-  List<Color> initColors(){
-    List<Color> colors = [];
-    int index = 0;
-
-    for(int i=0; i<30; i++){
-      switch (index) {
-        case 0:
-          colors.add(CustomColors().murasaki);
-          break;
-        case 1:
-          colors.add(CustomColors().orenji);
-          break;
-        case 2:
-          colors.add(CustomColors().chokoMinto);
-          break;
-        case 3:
-          colors.add(CustomColors().halfNezumi);
-          break;
-      }
-
-      if(index == 3)
-        index = 0;
-      else
-        index++;
-    }
-
-    return colors;
-  }
-
   Widget buildListDragTarget(double screenHeight, double screenWidth,
       double textSize, double itemHeight, double itemWidth) {
     List<Widget> col1 = [];
@@ -167,7 +139,8 @@ class _KakuGameState extends State<KakuGame> {
 
       return GestureDetector(
         onDoubleTap: (){
-          print("tapped");
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+              KanjiDetailsScreen(kanji: item, romaji: _romaji)));
         },
         child: DragTarget<String>(
             onAccept: (receivedItem){
@@ -282,7 +255,7 @@ class _KakuGameState extends State<KakuGame> {
     }
 
     return Scaffold(
-      backgroundColor: CustomColors().nezumihiro,
+      backgroundColor: CustomColors.nezumihiro,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(appBarSize),
         child: AppBar(

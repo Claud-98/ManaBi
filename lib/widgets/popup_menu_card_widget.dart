@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:manabi/screens/matching_game.dart';
+import 'package:manabi/screens/yomu_matching_game_screen.dart';
 
 class PopUpMenuCard extends StatelessWidget {
   final VoidCallback backButtonReset;
@@ -43,9 +43,9 @@ class PopUpMenuCard extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>
-                        MatchingGame(unit: unitNumber,
-                          levelNumber: levelSelected, type: type,
-                          translation: false,)));
+                        YomuMatchingGameScreen(unit: unitNumber,
+                          level: levelSelected,
+                          translation: false)));
               },
               child: AutoSizeText("PRONUNCIA",
                   textAlign: TextAlign.center,
@@ -65,8 +65,8 @@ class PopUpMenuCard extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>
-                          MatchingGame(unit: unitNumber,
-                            levelNumber: levelSelected, type: type,
+                          YomuMatchingGameScreen(unit: unitNumber,
+                            level: levelSelected,
                             translation: true,)));
                 }
               },

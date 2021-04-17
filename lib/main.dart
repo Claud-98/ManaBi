@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:manabi/custom_colors.dart';
-import 'package:manabi/repositories/dbhelper.dart';
 import 'package:manabi/screens/home_screen.dart';
 import 'package:manabi/screens/game_level_menu.dart';
 import 'package:manabi/screens/settings_screen.dart';
+import 'package:manabi/services/dbhelper.dart';
+
+
 
 
 
 void main() async {
   await DBHelper().initDatabase();
 
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor: CustomColors().nezumihiro,
-        primarySwatch: CustomColors().createMaterialColor(Color(0xFFDE3A5D)),
+        scaffoldBackgroundColor: CustomColors.nezumihiro,
+        primarySwatch: CustomColors.createMaterialColor(Color(0xFFDE3A5D)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
 

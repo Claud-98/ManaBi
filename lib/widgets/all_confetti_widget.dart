@@ -30,9 +30,9 @@ class _AllConfettiWidgetState extends State<AllConfettiWidget> {
           alignment: Alignment.center,
             child: ConfettiWidget(confettiController: controller,
               colors: [
-                CustomColors().murasaki,
-                CustomColors().orenji,
-                CustomColors().chokoMinto,
+                CustomColors.murasaki,
+                CustomColors.orenji,
+                CustomColors.chokoMinto,
               ],
               emissionFrequency: 0,
               numberOfParticles: 50,

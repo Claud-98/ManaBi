@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manabi/custom_colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:manabi/providers.dart';
 
 class EndGameWidget extends StatelessWidget {
 
@@ -49,14 +51,14 @@ class EndGameWidget extends StatelessWidget {
         Container(
           height: rowOneHeight,
           width: screenWidth,
-          color: CustomColors().blackGround,
+          color: CustomColors.blackGround,
         ),
         Material(
           elevation:16,
           child: Container(
             height: rowTwoHeight,
             width: screenWidth,
-            color: CustomColors().reddo,
+            color: CustomColors.reddo,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -90,7 +92,7 @@ class EndGameWidget extends StatelessWidget {
           child: Container(
             height: rowThreeHeight,
             width: screenWidth,
-            color: CustomColors().blackGround,
+            color: CustomColors.blackGround,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -107,19 +109,23 @@ class EndGameWidget extends StatelessWidget {
                     color: Colors.white,
                   ),
                   shape: CircleBorder(),
-                  color: CustomColors().murasaki,
+                  color: CustomColors.murasaki,
                   padding: EdgeInsets.all(padding),
                 ),
                 Spacer(),
                 MaterialButton(
-                  onPressed: repeatLevel,
+                  onPressed: () {
+                    context.read(scoreProvider).resetScore();
+                    context.read(levelInfoProvider).setBestScore(best);
+                    context.refresh(gameOverProvider);
+                  },
                   child: Icon(
                     Icons.refresh,
                     size: iconSize,
                     color: Colors.white,
                   ),
                   shape: CircleBorder(),
-                  color: CustomColors().orenji,
+                  color: CustomColors.orenji,
                   padding: EdgeInsets.all(padding),
                 ),
                 Spacer(),
@@ -133,7 +139,7 @@ class EndGameWidget extends StatelessWidget {
                     color: Colors.white,
                   ),
                   shape: CircleBorder(),
-                  color: CustomColors().chokoMinto,
+                  color: CustomColors.chokoMinto,
                   padding: EdgeInsets.all(padding),
                 ),
                 Spacer(),

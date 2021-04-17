@@ -21,7 +21,7 @@ class MenuWidgetButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      color: CustomColors().blackGround,
+      color: CustomColors.blackGround,
       margin: const EdgeInsets.only(bottom: 15, top: 5),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

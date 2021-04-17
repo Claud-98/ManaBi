@@ -23,7 +23,7 @@ class KakuKanjiBox extends StatelessWidget {
             width: screenHeightOrWidth/8,
           ),
         Container(
-          color: CustomColors().blackGround,
+          color: CustomColors.blackGround,
           height: screenHeightOrWidth/8 - screenHeightOrWidth/75,
           width: screenHeightOrWidth/8,
           child: Center(
