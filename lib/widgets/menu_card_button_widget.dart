@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:manabi/screens/matching_game_kaku_screen.dart';
+import 'package:manabi/screens/kaku__matching_game_screen.dart';
 
 typedef void IntCallback(int id, int level);
 
@@ -25,8 +25,8 @@ class MenuCardButtonWidget extends StatelessWidget {
                onSonChanged(unitNumber, levelNumber);
               }else if(type == "kaku"){
                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                   MatchingGameKaku(unit: unitNumber, levelNumber: levelNumber,
-                     romaji: false,)));
+                   KakuMatchingGameScreen(unit: unitNumber, level: levelNumber,
+                     )));
              }
 
             },

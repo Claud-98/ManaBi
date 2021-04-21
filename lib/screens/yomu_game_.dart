@@ -24,14 +24,24 @@ class YomuGame extends StatelessWidget {
       return Draggable<YomuKanji>(
         data: item,
         childWhenDragging: Container(height: height, width: width),
-        feedback: DraggableTextWidget(widgetText: item.kanji,
-          color: color, height: height, width: width, textSize:  textSize,),
-        child: DraggableTextWidget(widgetText: item.kanji,
-          color: color, height: height, width: width, textSize: textSize,),
+        feedback: DraggableTextWidget(
+          widgetText: item.kanji,
+          color: color,
+          height: height,
+          width: width,
+          textSize: textSize,
+        ),
+        child: DraggableTextWidget(
+          widgetText: item.kanji,
+          color: color,
+          height: height,
+          width: width,
+          textSize: textSize,
+        ),
       );
     }).toList();
 
-    if (mediaQueryData.orientation == Orientation.landscape){
+    if (mediaQueryData.orientation == Orientation.landscape) {
       for (int i = 0; i < map.length; i++) {
         if (i.isEven)
           col1.add(map[i]);
@@ -52,50 +62,48 @@ class YomuGame extends StatelessWidget {
           )
         ],
       );
-    }else{
+    } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: map,
       );
     }
   }
-
 
   Widget buildListDragTarget(double height, double width, double textSize,
       BuildContext context, MediaQueryData mediaQueryData) {
     List<Widget> col1 = [];
     List<Widget> col2 = [];
-    var map = context.read(matchProvider).dragTargetItems.map((item){
+    var map = context.read(matchProvider).dragTargetItems.map((item) {
       int index = context.read(matchProvider).dragTargetItems.indexOf(item) + 1;
       Color color = colors[index];
       var typeBuilder;
-      if(context.read(levelInfoProvider).translate)
+      if (context.read(levelInfoProvider).translate)
         typeBuilder = item.translation;
-      else
-      if(context.read(levelInfoProvider).romaji)
+      else if (context.read(levelInfoProvider).romaji)
         typeBuilder = item.romaji;
       else
-        typeBuilder= item.reading;
+        typeBuilder = item.reading;
 
       return DragTarget<YomuKanji>(
-        onAccept: (receivedItem){
-          if(item.kanji == receivedItem.kanji){
-            context.read(scoreProvider).incrementScore(
-                10);
-            context.read(matchProvider).match(receivedItem);
-
-          }else{
-            context.read(scoreProvider).decrementScore(
-                5);
+        onAccept: (receivedItem) {
+          if (item.kanji == receivedItem.kanji) {
+            context.read(scoreProvider).incrementScore();
+            context.read(matchProvider).matchesForYomuGame(receivedItem);
+          } else {
+            context.read(scoreProvider).decrementScore();
           }
         },
-        builder: (context, acceptedItems,rejectedItem) => DraggableTextWidget(
-            widgetText: typeBuilder, color: color, height: height, width: width,
+        builder: (context, acceptedItems, rejectedItem) => DraggableTextWidget(
+            widgetText: typeBuilder,
+            color: color,
+            height: height,
+            width: width,
             textSize: textSize),
       );
     }).toList();
 
-    if (mediaQueryData.orientation == Orientation.landscape){
+    if (mediaQueryData.orientation == Orientation.landscape) {
       for (int i = 0; i < map.length; i++) {
         if (i.isEven)
           col2.add(map[i]);
@@ -115,38 +123,36 @@ class YomuGame extends StatelessWidget {
           )
         ],
       );
-    }else{
+    } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: map,
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     final unitHeightValue = mediaQueryData.size.height * 0.01;
     double appBarSize = AppBar().preferredSize.height;
-    final double screenHeight = mediaQueryData.size.height -
-        appBarSize - mediaQueryData.padding.top;
+    final double screenHeight =
+        mediaQueryData.size.height - appBarSize - mediaQueryData.padding.top;
     AssetImage image = AssetImage("assets/images/yomu_background.png");
     double containerWidth;
     double itemHeight;
     double itemWidth;
     double multiplier;
 
-    if(mediaQueryData.orientation == Orientation.landscape){
-      containerWidth = mediaQueryData.size.width/2.25;
-      itemHeight = screenHeight/6;
-      itemWidth = mediaQueryData.size.width/5;
-      multiplier= 7.5;
-
-    }else {
-      containerWidth = mediaQueryData.size.width/2.5;
-      itemHeight = screenHeight/11;
-      itemWidth = mediaQueryData.size.width/3.25;
+    if (mediaQueryData.orientation == Orientation.landscape) {
+      containerWidth = mediaQueryData.size.width / 2.25;
+      itemHeight = screenHeight / 6;
+      itemWidth = mediaQueryData.size.width / 5;
+      multiplier = 7.5;
+    } else {
+      containerWidth = mediaQueryData.size.width / 2.5;
+      itemHeight = screenHeight / 11;
+      itemWidth = mediaQueryData.size.width / 3.25;
       multiplier = 3.75;
     }
 
@@ -154,66 +160,72 @@ class YomuGame extends StatelessWidget {
       backgroundColor: CustomColors.nezumihiro,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(appBarSize),
-        child: Consumer( builder:(context, watch, child){
+        child: Consumer(builder: (context, watch, child) {
           String score = watch(scoreProvider).score.toString();
           String bestScore = watch(levelInfoProvider).bestScore.toString();
           return Visibility(
-            visible:watch(gameOverProvider).appBarVisibility,
+            visible: watch(gameOverProvider).appBarVisibility,
             child: AppBar(
-              centerTitle: true,
-              title:  AutoSizeText('Score: ' + "$score" +  ' Best: ' + "$bestScore")
-            ),
+                centerTitle: true,
+                title: AutoSizeText(
+                    'Score: ' + "$score" + ' Best: ' + "$bestScore")),
           );
-        }
-        ),
+        }),
       ),
       body: Container(
-          height: mediaQueryData.size.height,
-          width: mediaQueryData.size.width,
-          decoration:  BoxDecoration(
-            image: DecorationImage(
-                image: image,
-                fit: BoxFit.fill
-            ),
-          ),
-          child: Consumer(
-              builder:(context, watch, child) {
-                watch(matchProvider);
-            return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      if(!watch(gameOverProvider).gameOver)
-                        Row(
-                          children: <Widget>[
-                            Spacer(),
-                            Container(
-                              height: screenHeight,
-                              width: containerWidth,
-                              child: buildListDraggable(itemHeight, itemWidth,
-                                  unitHeightValue * multiplier, context, mediaQueryData),
-                            ),
-                            Spacer(),
-                            Spacer(),
-                            Container(
-                              height: screenHeight,
-                              width: containerWidth,
-                              child: buildListDragTarget(itemHeight, itemWidth,
-                                  unitHeightValue * multiplier,  context, mediaQueryData),
-                            ),
-                            Spacer(),
-                          ],
-                        ),
-                      if(watch(gameOverProvider).gameOver)
-                        AllConfettiWidget(
-                          child: EndGameWidget(score: watch(scoreProvider).score,
-                              best: watch(levelInfoProvider).bestScore, textSize: unitHeightValue *
-                              multiplier, repeatLevel: null),
-                        )
-                    ],
-                  );
-               }
-          ),
+        height: mediaQueryData.size.height,
+        width: mediaQueryData.size.width,
+        decoration: BoxDecoration(
+          image: DecorationImage(image: image, fit: BoxFit.fill),
+        ),
+        child: Consumer(builder: (context, watch, child) {
+          watch(matchProvider);
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              if (!watch(gameOverProvider).gameOver)
+                Row(
+                  children: <Widget>[
+                    Spacer(),
+                    Container(
+                      height: screenHeight,
+                      width: containerWidth,
+                      child: buildListDraggable(
+                          itemHeight,
+                          itemWidth,
+                          unitHeightValue * multiplier,
+                          context,
+                          mediaQueryData),
+                    ),
+                    Spacer(),
+                    Spacer(),
+                    Container(
+                      height: screenHeight,
+                      width: containerWidth,
+                      child: buildListDragTarget(
+                          itemHeight,
+                          itemWidth,
+                          unitHeightValue * multiplier,
+                          context,
+                          mediaQueryData),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              if (watch(gameOverProvider).gameOver)
+                AllConfettiWidget(
+                  child: Center(
+                    child: EndGameWidget(
+                        score: watch(scoreProvider).score,
+                        best: watch(levelInfoProvider).bestScore,
+                        textSize: unitHeightValue * multiplier,
+                        repeatLevel: null),
+                  ),
+                )
+            ],
+          );
+        }),
       ),
     );
   }

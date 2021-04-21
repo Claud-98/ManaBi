@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:manabi/models/yomu_data_required_for_build.dart';
 import 'package:manabi/providers.dart';
+import 'package:manabi/screens/error_screen.dart';
 import 'package:manabi/screens/yomu_game_.dart';
 
 class YomuMatchingGameScreen extends ConsumerWidget {
@@ -20,14 +21,14 @@ class YomuMatchingGameScreen extends ConsumerWidget {
     return Scaffold(
       body: yomuData.when(
         loading: () => Center(child: const CircularProgressIndicator()),
-        error: (error, stack) => const Text('Oops'),
+        error: (error, stack) => ErrorScreen(errorMessage: error.toString()),
         data: (yomuData) {
           levelInfoRef.setGameKanjiList(yomuData.kanjiLevelList);
           if(levelInfoRef.callBackScore == null)
             levelInfoRef.setBestScore(yomuData.bestScore);
           levelInfoRef.setRomaji(yomuData.romaji);
           levelInfoRef.computeAddAndSubMatch();
-          context.read(matchProvider).setList(yomuData.kanjiLevelList);
+          context.read(matchProvider).initYomuGame(yomuData.kanjiLevelList);
           watch(gameOverProvider).gameOver;
 
           return Center(child: YomuGame(translation: translation,));

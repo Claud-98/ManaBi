@@ -28,7 +28,7 @@ class EndGameWidget extends StatelessWidget {
     double padding;
 
     if(mediaQueryData.orientation == Orientation.landscape){
-      rowOneHeight = screenHeight/15;
+      rowOneHeight = screenHeight/12;
       rowTwoHeight = screenHeight/3.5;
       rowThreeHeight = screenHeight/2.5;
       iconSize = screenWidth/20;
@@ -44,28 +44,31 @@ class EndGameWidget extends StatelessWidget {
     }
 
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          height: rowOneHeight,
-          width: screenWidth,
-          color: CustomColors.blackGround,
-        ),
-        Material(
-          elevation:16,
-          child: Container(
+
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(0))),
+      color: CustomColors.blackGround.withAlpha(450),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            height: rowOneHeight,
+            width: screenWidth,
+          ),
+          Container(
             height: rowTwoHeight,
             width: screenWidth,
-            color: CustomColors.reddo,
+            color: CustomColors.reddo.withAlpha(500),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
 
               children: [
                 Spacer(),
-                AutoSizeText("BEST: $best",
+                AutoSizeText("Best Score: $best",
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: textSize,
@@ -74,7 +77,7 @@ class EndGameWidget extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                AutoSizeText("SCORE: $score",
+                AutoSizeText("Score: $score",
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: textSize,
@@ -86,13 +89,9 @@ class EndGameWidget extends StatelessWidget {
               ],
             )
           ),
-        ),
-        Material(
-          elevation: 8,
-          child: Container(
+          Container(
             height: rowThreeHeight,
             width: screenWidth,
-            color: CustomColors.blackGround,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -101,6 +100,7 @@ class EndGameWidget extends StatelessWidget {
                 Spacer(),
                 MaterialButton(
                   onPressed: (){
+                    context.read(updateAverageProvider).refreshGraphics(context);
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -117,8 +117,9 @@ class EndGameWidget extends StatelessWidget {
                   onPressed: () {
                     context.read(scoreProvider).resetScore();
                     context.read(levelInfoProvider).setBestScore(best);
+                    context.read(updateAverageProvider).refreshGraphics(context);
                     context.refresh(gameOverProvider);
-                  },
+                    },
                   child: Icon(
                     Icons.refresh,
                     size: iconSize,
@@ -131,6 +132,7 @@ class EndGameWidget extends StatelessWidget {
                 Spacer(),
                 MaterialButton(
                   onPressed: (){
+                    context.read(updateAverageProvider).refreshGraphics(context);
                     Navigator.popUntil(context, ModalRoute.withName("/"));
                   },
                   child: Icon(
@@ -146,9 +148,9 @@ class EndGameWidget extends StatelessWidget {
                 Spacer(),
               ],
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

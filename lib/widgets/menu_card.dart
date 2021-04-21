@@ -185,7 +185,7 @@ class _MenuCardState extends State<MenuCard> {
 
 
     return Card(
-      color: CustomColors.blackGround,
+      color: CustomColors.blackGround.withAlpha(150),
       elevation: 5,
       margin: const EdgeInsets.only(bottom: 10, top: 10),
       shape: RoundedRectangleBorder(

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:manabi/models/kaku_data_required_for_build.dart';
 import 'package:manabi/models/yomu_data_required_for_build.dart';
-import 'package:manabi/models/yomu_kanji.dart';
 import 'package:manabi/repositories/kanji_repository.dart';
 
+/*Model that update the score*/
 class ScoreNotifier extends ChangeNotifier{
   final Reader _reader;
   int _score = 0;
@@ -15,7 +16,7 @@ class ScoreNotifier extends ChangeNotifier{
 
   int get score => _score;
 
-  void incrementScore(int value){
+  void incrementScore(){
     if (_reader(matchProvider).length == 1 && _perfect)
       _score = 100;
     else
@@ -23,7 +24,7 @@ class ScoreNotifier extends ChangeNotifier{
     notifyListeners();
   }
 
-  void decrementScore(int value){
+  void decrementScore(){
     _perfect = false;
     _score -= _subAfterNotMatch;
     notifyListeners();
@@ -41,22 +42,22 @@ class ScoreNotifier extends ChangeNotifier{
   }
 }
 
-
-
-class MatchNotifier extends ChangeNotifier{
+/*Model that updates the data after a match*/
+class MatchNotifier<T> extends ChangeNotifier{
   final Reader _reader;
-  List<YomuKanji> _dataList;
-  List<YomuKanji> _dragItems;
-  List<YomuKanji> _dragTargetItems;
+  List<T> _dataList;
+  /*Must be or Yomukanji or String */
+  List<dynamic> _dragItems;
+  List<T> _dragTargetItems;
   int _length;
 
   MatchNotifier(this._reader);
 
-  List<YomuKanji> get dragItems => _dragItems;
-  List<YomuKanji> get dragTargetItems => _dragTargetItems;
+  List<dynamic> get dragItems => _dragItems;
+  List<T> get dragTargetItems => _dragTargetItems;
   int get length => _length;
 
-  void setList(List<YomuKanji> list){
+  void initYomuGame(List<T> list){
     if(list == null) return;
     _dataList = list;
     print(list);
@@ -65,24 +66,41 @@ class MatchNotifier extends ChangeNotifier{
   }
 
   void setGameLists(){
-      _dragItems = List<YomuKanji>.from(_dataList);
+      _dragItems = List<T>.from(_dataList);
       _dragItems.shuffle();
-      _dragTargetItems = List<YomuKanji>.from(_dataList);
+      _dragTargetItems = List<T>.from(_dataList);
       _dragTargetItems.shuffle();
   }
 
-  void match(YomuKanji kanji){
+  void matchesForYomuGame(T kanji){
     _length--;
     _dragItems.remove(kanji);
     _dragTargetItems.remove(kanji);
     if(_length == 0) {
-      _reader(gameOverProvider).isGameOver();
+      _reader(gameOverProvider).isGameOver(true);
     }
     notifyListeners();
   }
-  
+
+  void initKakuGame(List<String> kunAndOnYomi, List<T> kanjiList){
+    if(kanjiList == null) return;
+    kunAndOnYomi.shuffle();
+    _dragTargetItems = kanjiList;
+    _dragItems = List.from(kunAndOnYomi);
+    _length = kunAndOnYomi.length;
+  }
+
+  void matchesForKakuGame(String receivedItem){
+    _length--;
+    _dragItems.remove(receivedItem);
+    if(_length == 0) {
+      _reader(gameOverProvider).isGameOver(false);
+    }
+    notifyListeners();
+  }
 }
-/*Model that notify and resets the game*/
+
+/*Model that notify the end of the game level, save the bestScore and resets the game*/
 class GameOverNotifier extends ChangeNotifier{
   final Reader _reader;
   bool _gameOver = false;
@@ -93,21 +111,25 @@ class GameOverNotifier extends ChangeNotifier{
   bool get gameOver => _gameOver;
   bool get appBarVisibility => _appBarVisibility;
 
-  void isGameOver(){
+  void isGameOver(bool isYomu){
     _gameOver = true;
     int score = _reader(scoreProvider).score;
     setAppBarVisibility(false);
     if(score > _reader(levelInfoProvider).bestScore)
-      saveBestScore(score);
+      saveBestScore(score, isYomu);
     notifyListeners();
   }
 
-  void saveBestScore(int score){
+  void saveBestScore(int score, bool isYomu){
     var levelInfoProviderRef = _reader(levelInfoProvider);
     int unit = levelInfoProviderRef.unit;
     int level = levelInfoProviderRef.level;
-    bool translation = levelInfoProviderRef.translate;
-    KanjiRepository.updateYomuLevelBestScore(score, unit, level, translation);
+    if(isYomu) {
+      bool translation = levelInfoProviderRef.translate;
+      KanjiRepository.updateYomuLevelBestScore(score, unit, level, translation);
+    }else {
+      KanjiRepository.updateKakuLevelBestScore(score, unit, level);
+    }
     _reader(levelInfoProvider).setBestScore(score);
     _reader(levelInfoProvider).setCallBestScore(score);
   }
@@ -123,11 +145,11 @@ class GameOverNotifier extends ChangeNotifier{
 
 }
 
-
-/*Model that stores the number of the unit, level, translation, and romaji state */
-class LevelInfoNotifier extends ChangeNotifier{
+/*Model that stores the number of the unit, level, bestScore translation, and romaji state */
+class LevelInfoNotifier<T> extends ChangeNotifier{
   final Reader _reader;
-  List<YomuKanji> _gameKanjiList;
+  List<T> _gameKanjiList;
+  List<String> _kunAndOnYomi;
   int _unit;
   int _level;
   int _bestScore;
@@ -139,7 +161,8 @@ class LevelInfoNotifier extends ChangeNotifier{
 
   LevelInfoNotifier(this._reader);
 
-  List<YomuKanji> get gameKanjiList => _gameKanjiList;
+  List<T> get gameKanjiList => _gameKanjiList;
+  List<String> get kunAndOnYomi => _kunAndOnYomi;
   int get unit => _unit;
   int get level => _level;
   int get bestScore => _bestScore;
@@ -155,9 +178,14 @@ class LevelInfoNotifier extends ChangeNotifier{
     _translate = translation;
   }
 
-  void setGameKanjiList(List<YomuKanji> kanjiList){
+  void setGameKanjiList(List<T> kanjiList){
     _gameKanjiList = kanjiList;
     _listLength = kanjiList.length;
+  }
+
+  void setKunAndOnYomiList(List<String> list){
+    _kunAndOnYomi = list;
+    _listLength = list.length;
   }
 
   void setRomaji(bool romaji)  {
@@ -173,15 +201,20 @@ class LevelInfoNotifier extends ChangeNotifier{
   }
 
   void computeAddAndSubMatch(){
+    print(_listLength);
     int addMatch = (100/_listLength).round();
     int subNotMatch = (addMatch/2).round();
     _reader(scoreProvider).setAddAndSubMatch(addMatch, subNotMatch);
   }
-
-
-
 }
 
+class UpdateProvider extends ChangeNotifier{
+  void refreshGraphics(BuildContext context){
+    context.refresh(averageLevelScore(0));
+    context.refresh(averageLevelScore(1));
+    context.refresh(averageLevelScore(2));
+  }
+}
 
 final repositoryProvider = Provider((ref) => KanjiRepository());
 
@@ -200,7 +233,25 @@ final scoreProvider = ChangeNotifierProvider.autoDispose((ref) => ScoreNotifier(
     return await repoInstance.fetchAllYomuData(unit, level, translate);
   });
 
+final kakuResponseProvider = FutureProvider.autoDispose<KakuDataRequiredForBuild>((ref) async {
+  final repoInstance = ref.read(repositoryProvider);
+  final infoProvider = ref.read(levelInfoProvider);
+  int unit = infoProvider.unit;
+  int level = infoProvider.level;
+  return await repoInstance.fetchAllKakuData(unit, level);
+});
+
+final averageLevelScore = FutureProvider.family.autoDispose<double, int>((ref, index) async{
+  final repoInstance = ref.read(repositoryProvider);
+  final allLevelScore = await repoInstance.getAllLevelNumber(index);
+  final sumOfBestScores =  await repoInstance.getSumOfAllBestScore(index);
+  return (sumOfBestScores/allLevelScore)/100;
+});
+
 final matchProvider = ChangeNotifierProvider.autoDispose((ref) => MatchNotifier(ref.read));
+
+final updateAverageProvider = Provider((ref) => UpdateProvider());
+
 
 
 

@@ -32,6 +32,7 @@ dependencies:
   video_player: ^2.1.1
   equatable: ^2.0.0
   flutter_riverpod: ^0.14.0+1
+  percent_indicator: ^3.0.1
 
 
 #  animated_splash_screen: ^1.1.0
@@ -66,6 +67,8 @@ flutter:
     - assets/images/Home_Background_R.png
     - assets/images/yomu_background.png
     - assets/images/error_img.png
+    - assets/images/HomeBackground.png
+    - assets/images/HomeBackgroundRotated.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

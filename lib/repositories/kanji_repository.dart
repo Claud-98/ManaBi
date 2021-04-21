@@ -5,6 +5,7 @@ import 'package:manabi/models/yomu_kanji.dart';
 import 'package:manabi/services/KakuKanjiApiProvider.dart';
 import 'package:manabi/services/SharedPreferencesManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 import '../services/dbhelper.dart';
 
 class KanjiRepository {
@@ -104,7 +105,7 @@ class KanjiRepository {
     }
   }
 
-  static Future<List<String>> getListKakuKanjiOfUnitLevel(int unit, int level,) async {
+  static Future<List<String>> getListKakuKanjiOfUnitLevel(int unit, int level) async {
     final sql = '''SELECT * FROM ${DBHelper.kakuKanjiTable}
     WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''';
 
@@ -180,6 +181,31 @@ class KanjiRepository {
     SET ${DBHelper.kakuScore} = ? 
     WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''', [score, unit, level]);
 
+  }
+
+  Future<int> getAllLevelNumber(int index) async {
+    const List<String> tables = [DBHelper.yomuScoreTable, DBHelper.yomuScoreTable,
+      DBHelper.kakuScoreTable];
+    String sql = 'SELECT COUNT(*) FROM ${tables[index]}';
+
+    final data = await db.rawQuery(sql);
+    final int levelScore = Sqflite.firstIntValue(data);
+    print(levelScore);
+    return levelScore;
+  }
+
+  Future<int> getSumOfAllBestScore(int index) async {
+    const List<String> tables = [DBHelper.yomuScoreTable, DBHelper.yomuScoreTable,
+      DBHelper.kakuScoreTable];
+    const List<String> colums = [DBHelper.yomuScoreRead, DBHelper.yomuScoreTran,
+      DBHelper.kakuScore ];
+
+    String sql = 'SELECT SUM(${colums[index]}) FROM ${tables[index]}';
+    final data = await db.rawQuery(sql);
+
+    final int sum = Sqflite.firstIntValue(data);
+    print(sum);
+    return sum;
   }
 
 }
