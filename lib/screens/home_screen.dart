@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:manabi/widgets/gauge%20_pie_chart_widget.dart';
 import '../custom_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// HomeScreen - Menu principale dell'applicazione da cui è possibile navigare
 /// ai menu dei giochi di abbinamento e le impostazioni dell'applicazione.
 
 Widget addGameButton(MediaQueryData mediaQueryData, BuildContext context,
-    double textSize, double buttonHeight, double buttonWidth) {
+    double textSize, double buttonHeight, double buttonWidth,
+    AppLocalizations strings) {
   List<Widget> gameButtons = [];
   gameButtons.add(Container(
     height: buttonHeight,
     width: buttonWidth,
     child: ElevatedButton(
-      onPressed: () => Navigator.pushNamed(context, '/yomuMenu'),
+      onPressed: () => Navigator.pushNamed(context, strings.yomuMenuRoute),
       style: ButtonStyle(
           backgroundColor:
               MaterialStateProperty.all<Color>(CustomColors.murasaki),
@@ -24,7 +26,7 @@ Widget addGameButton(MediaQueryData mediaQueryData, BuildContext context,
             borderRadius: BorderRadius.circular(30),
           ))),
       child: Text(
-        'YOMU KANJI',
+        strings.yomuKanjiUpCase,
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white,
@@ -40,7 +42,7 @@ Widget addGameButton(MediaQueryData mediaQueryData, BuildContext context,
       height: buttonHeight,
       width: buttonWidth,
       child: ElevatedButton(
-        onPressed: () => Navigator.pushNamed(context, '/kakuMenu'),
+        onPressed: () => Navigator.pushNamed(context, strings.kakuMenuRoute),
         style: ButtonStyle(
             backgroundColor:
                 MaterialStateProperty.all<Color>(CustomColors.orenji),
@@ -50,7 +52,7 @@ Widget addGameButton(MediaQueryData mediaQueryData, BuildContext context,
               borderRadius: BorderRadius.circular(30),
             ))),
         child: Text(
-          'KAKU KANJI',
+          strings.kakuKanjiUpCase,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
@@ -97,6 +99,7 @@ class HomeScreen extends StatelessWidget {
     final double screenHeight =
         mediaQueryData.size.height - appBarSize - mediaQueryData.padding.top;
     final double screenWidth = mediaQueryData.size.width;
+    final translatedStrings = AppLocalizations.of(context);
     double itemHeight;
     double itemWidth;
     double buttonHeight;
@@ -129,7 +132,7 @@ class HomeScreen extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, "/settings");
+              Navigator.pushNamed(context, translatedStrings.settingsRoute);
             },
           )
         ],
@@ -148,7 +151,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Spacer(flex: 3),
             addGameButton(mediaQueryData, context, multiplier * unitHeightValue,
-                buttonHeight, buttonWidth),
+                buttonHeight, buttonWidth, translatedStrings),
             Spacer(flex: 3),
             Card(
               color: Colors.white,
@@ -163,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                     Container(
                       child: Center(
                           child: Text(
-                        "AVERAGE BEST SCORE",
+                            translatedStrings.averageBestScore,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: multiplier * unitHeightValue,
@@ -184,7 +187,7 @@ class HomeScreen extends StatelessWidget {
                               itemHeight: itemHeight,
                               itemWidth: itemWidth,
                               textSize: unitHeightValue * multiplier,
-                              textString: "YOMU KANJI TRADUZIONE",
+                              textString: translatedStrings.yomuKanjiTranslation,
                               color: CustomColors.murasaki,
                               dataIndex: 1,
                             );
@@ -198,7 +201,7 @@ class HomeScreen extends StatelessWidget {
                               itemHeight: itemHeight,
                               itemWidth: itemWidth,
                               textSize: unitHeightValue * multiplier,
-                              textString: "YOMU KANJI PRONUNCIA",
+                              textString: translatedStrings.yomuKanjiPronunciation,
                               color: CustomColors.orenji,
                               dataIndex: 0,
                             );
@@ -212,7 +215,7 @@ class HomeScreen extends StatelessWidget {
                               itemHeight: itemHeight,
                               itemWidth: itemWidth,
                               textSize: unitHeightValue * multiplier,
-                              textString: "KAKU KANJI",
+                              textString: translatedStrings.kakuKanjiReadings,
                               color: CustomColors.chokoMinto,
                               dataIndex: 2,
                             );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manabi/custom_colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorScreen extends StatelessWidget {
   final String errorMessage;
@@ -8,6 +9,7 @@ class ErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translatedStrings = AppLocalizations.of(context);
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     final unitHeightValue = mediaQueryData.size.height * 0.01;
     final double screenHeight = mediaQueryData.size.height;
@@ -95,7 +97,7 @@ class ErrorScreen extends StatelessWidget {
                         ),
                           backgroundColor: MaterialStateProperty.all(CustomColors.orenji),
                       ),
-                      child: Text('Back',
+                      child: Text(translatedStrings.backButton,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: unitHeightValue * multiplier,

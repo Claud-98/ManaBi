@@ -209,7 +209,7 @@ class LevelInfoNotifier<T> extends ChangeNotifier{
 }
 
 class UpdateProvider extends ChangeNotifier{
-  void refreshGraphics(BuildContext context){
+  void forceRefreshGraphics(BuildContext context){
     context.refresh(averageLevelScore(0));
     context.refresh(averageLevelScore(1));
     context.refresh(averageLevelScore(2));
@@ -251,6 +251,7 @@ final averageLevelScore = FutureProvider.family.autoDispose<double, int>((ref, i
 final matchProvider = ChangeNotifierProvider.autoDispose((ref) => MatchNotifier(ref.read));
 
 final updateAverageProvider = Provider((ref) => UpdateProvider());
+
 
 
 

@@ -8,6 +8,7 @@ import 'package:manabi/widgets/all_confetti_widget.dart';
 import 'package:manabi/widgets/draggable_text_widget.dart';
 import 'package:manabi/widgets/end_game_widget.dart';
 import 'package:manabi/widgets/kaku_kanji_box.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class KakuGameStateless extends StatelessWidget {
   final colors = CustomColors.initColorsKaku(30);
@@ -182,6 +183,7 @@ class KakuGameStateless extends StatelessWidget {
     final double screenHeight =
         mediaQueryData.size.height - appBarSize - mediaQueryData.padding.top;
     final double screenWidth = mediaQueryData.size.width;
+    final translatedStrings = AppLocalizations.of(context);
     double itemHeight;
     double itemWidth;
     double multiplier;
@@ -208,7 +210,7 @@ class KakuGameStateless extends StatelessWidget {
             child: AppBar(
                 centerTitle: true,
                 title: AutoSizeText(
-                    'Score: ' + "$score" + ' Best: ' + "$bestScore")),
+                    translatedStrings.inGameAppBarText(score, bestScore))),
           );
         }),
       ),

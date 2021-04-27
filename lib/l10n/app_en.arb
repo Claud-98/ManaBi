@@ -1,0 +1,139 @@
+    {
+        "language": "English",
+         "@language":{
+              "description": "The current Language"
+            },
+
+         "backButton": "Back",
+             "@backButton": {
+               "description": "the back button text"
+             },
+
+         "kanjiUpCase": "KANJI",
+                      "@kanjiUpCase": {
+                        "description": "the word kanji upper case for app bar of the menu"
+                      },
+
+         "homeRoute": "/",
+                      "@settingsRoute": {
+                      "description": "the home route"
+                       },
+
+         "settingsRoute": "/settings",
+                       "@settingsRoute": {
+                        "description": "the setting route"
+                       },
+
+         "yomuMenuRoute": "/yomuMenu",
+                       "@yomuMenuRoute": {
+                        "description": "the yomu kanji game menu route"
+                       },
+
+         "kakuMenuRoute": "/kakuMenu",
+                       "@kakuMenuRoute": {
+                        "description": "the kaku kanji game menu route"
+                       },
+
+         "yomuKanjiUpCase": "YOMU KANJI",
+                      "@yomuKanjiUpCase": {
+                        "description": "the word YOMU KANJI"
+                      },
+
+         "kakuKanjiUpCase": "KAKU KANJI",
+                      "@kakuKanjiUpCase": {
+                      "description": "the word KAKU KANJI"
+                      },
+
+         "averageBestScore": "AVERAGE BEST SCORE",
+                      "@averageBestScore": {
+                      "description": "the average best score text of the home page"
+                      },
+
+         "yomuKanjiTranslation": "YOMU KANJI TRANSLATION",
+                      "@yomuKanjiTranslation": {
+                       "description": "Yomu Kanji Translation text of the graph in the home page"
+                      },
+
+         "yomuKanjiPronunciation": "YOMU KANJI PRONUNCIATION",
+                      "@yomuKanjiPronunciation": {
+                       "description": "Yomu Kanji Pronunciation text of the graph in the home page"
+                      },
+
+         "kakuKanjiReadings": "KAKU KANJI READINGS",
+                      "@kakuKanjiReadings": {
+                        "description": "KAKU Kanji Readings text of the graph in the home page"
+                      },
+
+         "inGameAppBarText": "Score: {score} Best: {bestScore}",
+                      "@inGameAppBarText": {
+                      "description": "the score indicators in the appbar during the game",
+                        "placeholders": {
+                            "score": {
+                                "type": "String"
+                            },
+                            "bestScore": {
+                                "type": "String"
+                            }
+                        }
+                      },
+
+         "kunYomiUpperCase": "KUN YOMI",
+                      "@kunYomiUpperCase": {
+                        "description": "On Yomi text of kanji details page"
+                      },
+
+         "onYomiUpperCase": "ON YOMI",
+                      "@onYomiUpperCase": {
+                        "description": "On Yomi text of kanji details page"
+                      },
+
+         "radicalUpperCase": "RADICAL",
+                      "@radicalUpperCase": {
+                        "description": "Radical text of kanji details page"
+                      },
+
+         "strokesUpperCase": "STROKES",
+                      "@strokesUpperCase": {
+                        "description": "Strokes text of kanji details page"
+                      },
+
+         "kanjiDetails": "Kanji Details",
+                      "@kanjiDetails": {
+                        "description": "the title of the kanji details page in the appBar"
+                      },
+
+         "settingsUpperCase": "SETTINGS",
+                      "@settingsUpperCase": {
+                        "description": "settings text"
+                      },
+
+         "romaji": "Rōmaji",
+                      "@romaji": {
+                        "description": "rōmaji text"
+                      },
+
+         "disableNotifications": "Disable Notifications",
+                      "@disableNotifications": {
+                        "description": "the Disable Notifications Setting"
+                      },
+
+         "about": "About",
+                      "@about": {
+                        "description": "the About text in the settings page"
+                      },
+         "romajiFunctionDescription": "Activate/Deactivate the use of Latin characters",
+                      "@romajiFunctionDescription": {
+                        "description": "the description text of the romaji setting"
+                      },
+
+         "hello": "Hello {username}",
+         "@hello": {
+           "description": "A welcome message",
+           "placeholders": {
+             "username": {
+                "type": "String"
+                  }
+            }
+         }
+
+    }

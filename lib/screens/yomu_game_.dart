@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:manabi/widgets/all_confetti_widget.dart';
 import 'package:manabi/widgets/draggable_text_widget.dart';
 import 'package:manabi/widgets/end_game_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class YomuGame extends StatelessWidget {
   final bool translation;
@@ -138,6 +139,7 @@ class YomuGame extends StatelessWidget {
     double appBarSize = AppBar().preferredSize.height;
     final double screenHeight =
         mediaQueryData.size.height - appBarSize - mediaQueryData.padding.top;
+    final translatedStrings = AppLocalizations.of(context);
     AssetImage image = AssetImage("assets/images/yomu_background.png");
     double containerWidth;
     double itemHeight;
@@ -168,7 +170,7 @@ class YomuGame extends StatelessWidget {
             child: AppBar(
                 centerTitle: true,
                 title: AutoSizeText(
-                    'Score: ' + "$score" + ' Best: ' + "$bestScore")),
+                    translatedStrings.inGameAppBarText(score, bestScore))),
           );
         }),
       ),

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:manabi/custom_colors.dart';
+import 'package:manabi/l10n/l10n.dart';
 import 'package:manabi/screens/home_screen.dart';
 import 'package:manabi/screens/game_level_menu.dart';
 import 'package:manabi/screens/settings_screen.dart';
 import 'package:manabi/services/dbhelper.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
@@ -22,13 +25,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     precacheImage(AssetImage("assets/images/Home_Background.png"), context);
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Manabi',
       theme: ThemeData(
         scaffoldBackgroundColor: CustomColors.nezumihiro,
         primarySwatch: CustomColors.createMaterialColor(Color(0xFFDE3A5D)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-
+      supportedLocales: L10n.all,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       initialRoute: '/',
       routes: {
         '/': (context) => HomeScreen(),

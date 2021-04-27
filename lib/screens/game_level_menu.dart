@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import '../widgets/menu_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// GameLevelMenu - Menu con tutte le unità composte dai rispettivi livelli.
 /// "type" specifica la categoria dei giochi del menu: kaku o yomu.
@@ -11,6 +12,7 @@ class GameLevelMenu extends StatelessWidget {
    //Numero Unità - coincide con il numero delle cards da creare.
    final int units;
    final String type;
+
 
   GameLevelMenu({Key key, @required this.numberOfLevels,
    @required this.units, @required this.type})  : super(key: key);
@@ -35,9 +37,11 @@ class GameLevelMenu extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    final translatedStrings = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: AutoSizeText(type.toUpperCase() + " KANJI"),
+        title: AutoSizeText(type.toUpperCase() + " " + translatedStrings.kanjiUpCase),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -46,7 +50,7 @@ class GameLevelMenu extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, "/settings");
+              Navigator.pushNamed(context, translatedStrings.settingsRoute);
             },
 
           )

@@ -3,6 +3,7 @@ import 'package:manabi/custom_colors.dart';
 import 'package:manabi/models/kaku_kanji.dart';
 import 'package:manabi/widgets/kanji_details_box.dart';
 import 'package:manabi/widgets/video_player.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class KanjiDetailsScreen extends StatelessWidget {
   final KakuKanji kanji;
@@ -13,7 +14,7 @@ class KanjiDetailsScreen extends StatelessWidget {
 
 
   Widget buildKanjiDetailsWidgets(double itemHeight, double itemWidth,
-      MediaQueryData mediaQueryData, double textSize){
+      MediaQueryData mediaQueryData, double textSize, AppLocalizations strings){
     List<Widget> widgets = [];
     String kunYomi;
     String onYomi;
@@ -27,16 +28,16 @@ class KanjiDetailsScreen extends StatelessWidget {
     }
 
     widgets.add(KanjiDetailsWidget(itemHeight: itemHeight, itemWidth: itemWidth,
-    color: CustomColors.murasaki, text1: "KUN YOMI", text2: kunYomi,
+    color: CustomColors.murasaki, text1: strings.kunYomiUpperCase, text2: kunYomi,
       textSize: textSize,));
     widgets.add(KanjiDetailsWidget(itemHeight: itemHeight, itemWidth: itemWidth,
-      color: CustomColors.orenji, text1: "ON YOMI", text2: onYomi,
+      color: CustomColors.orenji, text1: strings.onYomiUpperCase, text2: onYomi,
       textSize: textSize,));
     widgets.add(KanjiDetailsWidget(itemHeight: itemHeight, itemWidth: itemWidth/2.25,
-      color: CustomColors.chokoMinto, text1: "RADICAL",
+      color: CustomColors.chokoMinto, text1: strings.radicalUpperCase,
       text2: kanji.radical.character, textSize: textSize * 1.5,));
     widgets.add(KanjiDetailsWidget(itemHeight: itemHeight, itemWidth: itemWidth/2.25,
-      color: CustomColors.chokoMinto, text1: "STROKES",
+      color: CustomColors.chokoMinto, text1: strings.strokesUpperCase,
       text2: kanji.kanji.strokes.count.toString(), textSize: textSize *1.5,));
 
     if(mediaQueryData.orientation == Orientation.landscape){
@@ -81,6 +82,7 @@ class KanjiDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translatedStrings = AppLocalizations.of(context);
     final mediaQueryData = MediaQuery.of(context);
     final double appBarSize = AppBar().preferredSize.height;
     final unitHeightValue = mediaQueryData.size.height * 0.01;
@@ -108,7 +110,8 @@ class KanjiDetailsScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Kanji Details'),
+          centerTitle: true,
+          title: Text(translatedStrings.kanjiDetails),
         ),
         body: Column(
           children: [
@@ -128,7 +131,7 @@ class KanjiDetailsScreen extends StatelessWidget {
               ),
             ),
             buildKanjiDetailsWidgets(itemHeight, itemWidth, mediaQueryData,
-            unitHeightValue * multiplier)
+            unitHeightValue * multiplier, translatedStrings)
           ],
         )
     );

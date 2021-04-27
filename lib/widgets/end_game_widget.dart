@@ -100,7 +100,7 @@ class EndGameWidget extends StatelessWidget {
                 Spacer(),
                 MaterialButton(
                   onPressed: (){
-                    context.read(updateAverageProvider).refreshGraphics(context);
+                    context.read(updateAverageProvider).forceRefreshGraphics(context);
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -117,7 +117,7 @@ class EndGameWidget extends StatelessWidget {
                   onPressed: () {
                     context.read(scoreProvider).resetScore();
                     context.read(levelInfoProvider).setBestScore(best);
-                    context.read(updateAverageProvider).refreshGraphics(context);
+                    context.read(updateAverageProvider).forceRefreshGraphics(context);
                     context.refresh(gameOverProvider);
                     },
                   child: Icon(
@@ -132,7 +132,7 @@ class EndGameWidget extends StatelessWidget {
                 Spacer(),
                 MaterialButton(
                   onPressed: (){
-                    context.read(updateAverageProvider).refreshGraphics(context);
+                    context.read(updateAverageProvider).forceRefreshGraphics(context);
                     Navigator.popUntil(context, ModalRoute.withName("/"));
                   },
                   child: Icon(

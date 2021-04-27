@@ -1,0 +1,65 @@
+{
+    "language": "Italiano",
+
+    "backButton": "Indietro",
+
+    "kanjiUpCase": "KANJI",
+
+    "homeRoute": "/",
+
+    "settingsRoute": "/settings",
+
+
+    "yomuMenuRoute": "/yomuMenu",
+
+
+    "kakuMenuRoute": "/kakuMenu",
+
+
+    "yomuKanjiUpCase": "YOMU KANJI",
+
+
+    "kakuKanjiUpCase": "KAKU KANJI",
+
+
+    "averageBestScore": "PUNTEGGIO MEDIO",
+
+
+    "yomuKanjiTranslation": "YOMU KANJI TRADUZIONE",
+
+
+    "yomuKanjiPronunciation": "YOMU KANJI PRONUNCIA",
+
+
+    "kakuKanjiReadings": "KAKU KANJI LETTURE",
+
+    "inGameAppBarText": "Punteggio: {score} Migliore: {bestScore}",
+
+    "kunYomiUpperCase": "KUN YOMI",
+                          "@kunYomiUpperCase": {
+                            "description": "On Yomi text of kanji details page"
+                          },
+
+    "onYomiUpperCase": "ON YOMI",
+
+
+    "radicalUpperCase": "RADICALE",
+
+
+    "strokesUpperCase": "TRATTI",
+
+
+    "kanjiDetails": "Dettagli del Kanji",
+
+    "settingsUpperCase": "IMPOSTAZIONI",
+
+    "romaji": "Rōmaji",
+
+    "disableNotifications": "Disabilita Notifiche",
+
+    "about": "Informazioni APP",
+
+    "romajiFunctionDescription": "Attiva/Disattiva l'uso dei caratteri latini",
+
+    "hello": "Hallo {username}"
+}

@@ -23,7 +23,6 @@ class KakuMatchingGameScreen extends ConsumerWidget {
         loading: () => Center(child: const CircularProgressIndicator()),
         error: (error, stack) =>  ErrorScreen(errorMessage: error.toString()),
         data: (yomuData) {
-          print('sono in data');
           levelInfoRef.setGameKanjiList(yomuData.kanjiLevelList);
           levelInfoRef.setKunAndOnYomiList(yomuData.kunAndOnYomi);
           print(yomuData.kunAndOnYomi);
