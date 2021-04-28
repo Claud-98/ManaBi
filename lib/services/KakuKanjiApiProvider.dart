@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:manabi/strings.dart' as strings;
 import 'package:dio/dio.dart';
 import 'package:manabi/models/kaku_kanji.dart';
 
@@ -13,7 +15,10 @@ class KakuKanjiApiProvider{
 
       return KakuKanji.fromJson(response.data);
     } catch (error) {
-      throw("Cannot fetch data . . . Try to check your Internet connection");
+      if(Platform.localeName == 'it_IT')
+        throw(strings.connectionErrorMessageIt);
+      else
+        throw(strings.connectionErrorMessageEn);
     }
   }
 }

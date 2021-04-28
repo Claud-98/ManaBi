@@ -8,9 +8,7 @@ import 'package:manabi/screens/game_level_menu.dart';
 import 'package:manabi/screens/settings_screen.dart';
 import 'package:manabi/services/dbhelper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-
-
+import 'package:manabi/strings.dart' as strings;
 
 
 void main() async {
@@ -38,14 +36,16 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      initialRoute: '/',
+      initialRoute: strings.homeRoute,
       routes: {
-        '/': (context) => HomeScreen(),
-        '/yomuMenu': (context) => GameLevelMenu(numberOfLevels: [7, 4, 5, 3, 2, 4, 5],
-            units: 7, type: "yomu"),
-        '/kakuMenu': (context) => GameLevelMenu(numberOfLevels: [4, 4, 4, 5, 2, 4, 5],
-            units: 7, type: "kaku"),
-        '/settings': (context) => Settings(),
+        strings.homeRoute: (context) => HomeScreen(),
+        strings.yomuMenuRoute: (context) =>
+            GameLevelMenu(numberOfLevels: [7, 4, 5, 3, 2, 4, 5],
+                units: 7, type: strings.yomu),
+        strings.kakuMenuRoute: (context) =>
+            GameLevelMenu(numberOfLevels: [4, 4, 4, 5, 2, 4, 5],
+                units: 7, type: strings.kaku),
+        strings.settingsRoute: (context) => Settings(),
       },
     );
   }

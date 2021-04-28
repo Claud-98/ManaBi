@@ -121,9 +121,60 @@
                       "@about": {
                         "description": "the About text in the settings page"
                       },
-         "romajiFunctionDescription": "Activate/Deactivate the use of Latin characters",
+
+         "romajiFunctionDescription": "Activate the use of latin characters",
                       "@romajiFunctionDescription": {
                         "description": "the description text of the romaji setting"
+                      },
+
+         "bestScore": "Best Score: {score}",
+                 "@bestScore": {
+                   "description": "the Best Score text with its value",
+                   "placeholders": {
+                     "score": {
+                        "type": "String"
+                          }
+                    }
+                 },
+
+         "score": "Score: {myScore}",
+                  "@score": {
+                    "description": "the Best Score text with its value",
+                    "placeholders": {
+                      "myScore": {
+                         "type": "String"
+                           }
+                     }
+                  },
+
+         "moreLevelPopUp": "<<   Scroll to show more levels   >>",
+                  "@moreLevelPopUp":{
+                       "description": "The text of the card PopUp"
+                     },
+
+         "unitUpperCase": "UNIT ",
+                      "@unitUpperCase": {
+                        "description": "the unit word"
+                      },
+
+         "translationUpperCase": "TRANSLATION",
+                      "@translationUpperCase": {
+                        "description": "Translation word"
+                      },
+
+         "pronunciationUpperCase": "PRONUNCIATION",
+                      "@pronunciationUpperCase": {
+                        "description": "Pronunciation word"
+                      },
+
+         "genericErrorMessage": "Ops! Something went Wrong...",
+                      "@genericErrorMessage": {
+                        "description": "A generic error message"
+                      },
+
+         "connectionErrorMessage": "Cannot fetch data . . . Try to check your Internet connection",
+                      "@connectionErrorMessage": {
+                        "description": "Bad connection error message"
                       },
 
          "hello": "Hello {username}",

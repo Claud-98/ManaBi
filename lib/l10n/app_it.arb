@@ -59,7 +59,23 @@
 
     "about": "Informazioni APP",
 
-    "romajiFunctionDescription": "Attiva/Disattiva l'uso dei caratteri latini",
+    "romajiFunctionDescription": "Attiva l'uso dei caratteri latini",
+
+    "bestScore": "Miglior Punteggio: {score}",
+
+    "score": "Punteggio: {myScore}",
+
+    "moreLevelPopUp": "<<   Scorri per mostrare altri livelli   >>",
+
+    "unitUpperCase": "UNITA'",
+
+    "translationUpperCase": "TRADUZIONE",
+
+    "pronunciationUpperCase": "PRONUNCIA",
+
+    "genericErrorMessage": "Ops! Qualcosa è andato storto...",
+
+    "connectionErrorMessage": "Impossibile recuperare i dati . . . Assicurati di essere connesso ad Internet",
 
     "hello": "Hallo {username}"
 }

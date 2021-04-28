@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:manabi/custom_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:manabi/providers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EndGameWidget extends StatelessWidget {
 
@@ -16,6 +17,7 @@ class EndGameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translatedStrings = AppLocalizations.of(context);
     final mediaQueryData = MediaQuery.of(context);
     final PreferredSizeWidget appBar = AppBar();
     final double screenHeight = mediaQueryData.size.height -
@@ -68,7 +70,7 @@ class EndGameWidget extends StatelessWidget {
 
               children: [
                 Spacer(),
-                AutoSizeText("Best Score: $best",
+                AutoSizeText(translatedStrings.bestScore(best.toString()),
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: textSize,
@@ -77,7 +79,7 @@ class EndGameWidget extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                AutoSizeText("Score: $score",
+                AutoSizeText(translatedStrings.score(score.toString()),
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: textSize,

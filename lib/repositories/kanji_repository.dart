@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:manabi/models/kaku_data_required_for_build.dart';
 import 'package:manabi/models/kaku_kanji.dart';
 import 'package:manabi/models/yomu_data_required_for_build.dart';
@@ -7,6 +9,7 @@ import 'package:manabi/services/SharedPreferencesManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import '../services/dbhelper.dart';
+import 'package:manabi/strings.dart' as strings;
 
 class KanjiRepository {
   KakuKanjiApiProvider _apiProvider = KakuKanjiApiProvider();
@@ -33,7 +36,10 @@ class KanjiRepository {
     return yomuKanji;
   }
 
-  Future<List<YomuKanji>> getYomuKanjiOfUnitLevel(int unit, int level,) async {
+  Future<List<YomuKanji>> getYomuKanjiOfUnitLevel(
+    int unit,
+    int level,
+  ) async {
     final sql = '''SELECT * FROM ${DBHelper.yomuKanjiTable}
     WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''';
 
@@ -50,14 +56,15 @@ class KanjiRepository {
     return yomuKanjis;
   }
 
-  static Future<int> getYomuLevelBestScore(int unit, int level, bool translation) async {
+  static Future<int> getYomuLevelBestScore(
+      int unit, int level, bool translation) async {
     String sql;
     String rowName;
-    if(!translation){
+    if (!translation) {
       sql = '''SELECT ${DBHelper.yomuScoreRead} FROM ${DBHelper.yomuScoreTable}
     WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''';
       rowName = DBHelper.yomuScoreRead;
-    }else{
+    } else {
       sql = '''SELECT ${DBHelper.yomuScoreTran} FROM ${DBHelper.yomuScoreTable}
     WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''';
       rowName = DBHelper.yomuScoreTran;
@@ -69,14 +76,14 @@ class KanjiRepository {
     return levelScore;
   }
 
-  static Future<void> updateYomuLevelBestScore(int score, int unit, int level,
-      bool translation) async {
-    if(!translation){
+  static Future<void> updateYomuLevelBestScore(
+      int score, int unit, int level, bool translation) async {
+    if (!translation) {
       db.rawUpdate('''UPDATE ${DBHelper.yomuScoreTable} 
       SET ${DBHelper.yomuScoreRead} = ? 
       WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''',
           [score, unit, level]);
-    }else{
+    } else {
       db.rawUpdate('''UPDATE ${DBHelper.yomuScoreTable} 
       SET ${DBHelper.yomuScoreTran} = ? 
       WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''',
@@ -85,27 +92,30 @@ class KanjiRepository {
   }
 
   getRomajiState() async {
-    SharedPreferences prefs = await SharedPreferencesManager.getSharedPreferencesInstance();
+    SharedPreferences prefs =
+        await SharedPreferencesManager.getSharedPreferencesInstance();
     return (prefs.getBool(SharedPreferencesManager.romajiKey) ?? false);
   }
 
-  Future<YomuDataRequiredForBuild> fetchAllYomuData(int unit, int level, bool translation) async {
-       return YomuDataRequiredForBuild(
+  Future<YomuDataRequiredForBuild> fetchAllYomuData(
+      int unit, int level, bool translation) async {
+    return YomuDataRequiredForBuild(
       bestScore: await getYomuLevelBestScore(unit, level, translation),
       kanjiLevelList: await getYomuKanjiOfUnitLevel(unit, level),
       romaji: await getRomajiState(),
     );
   }
 
-  Future<KakuKanji> getKakuKanji(String kanji){
+  Future<KakuKanji> getKakuKanji(String kanji) {
     try {
       return _apiProvider.getKakuKanji(kanji);
-    }catch(error){
+    } catch (error) {
       return null;
     }
   }
 
-  static Future<List<String>> getListKakuKanjiOfUnitLevel(int unit, int level) async {
+  static Future<List<String>> getListKakuKanjiOfUnitLevel(
+      int unit, int level) async {
     final sql = '''SELECT * FROM ${DBHelper.kakuKanjiTable}
     WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''';
 
@@ -121,17 +131,32 @@ class KanjiRepository {
     return kakuKanjis;
   }
 
-  Future<List<KakuKanji>> getKakuKanjiOfUnitLevel(int unit, int level,) async {
+  Future<List<KakuKanji>> getKakuKanjiOfUnitLevel(
+    int unit,
+    int level,
+  ) async {
     List<String> toFetchKanji = await getListKakuKanjiOfUnitLevel(unit, level);
     final List<KakuKanji> kakuKanjis = [];
     print(toFetchKanji);
 
-      for (final el in toFetchKanji) {
-        final kakuKanji = await getKakuKanji(el).catchError((error){
+    for (final el in toFetchKanji) {
+      /*final kakuKanji = await getKakuKanji(el).catchError((error){
           throw(error);
-        });
+        }).timeout(Duration(seconds: (90)));*/
+      try {
+        final kakuKanji =
+            await getKakuKanji(el).timeout(Duration(seconds: (60)));
         kakuKanjis.add(kakuKanji);
+      } on TimeoutException catch (e) {
+        print(e);
+        if (Platform.localeName == 'it_IT')
+          throw (strings.connectionTimeoutErrorMessageIt);
+        else
+          throw (strings.connectionTimeoutErrorMessageEn);
+      } on Error catch (e) {
+        throw (e);
       }
+    }
 
     return kakuKanjis;
   }
@@ -144,7 +169,7 @@ class KanjiRepository {
     for (final el in kanjiList) {
       List<String> listKun;
       List<String> listOn;
-      if(!romaji) {
+      if (!romaji) {
         listKun = el.kanji.kunyomi.hiragana.split('、');
         listOn = el.kanji.onyomi.katakana.split('、');
       } else {
@@ -154,7 +179,6 @@ class KanjiRepository {
 
       allReadings.addAll(listKun);
       allReadings.addAll(listOn);
-
     }
     print(allReadings);
 
@@ -176,16 +200,20 @@ class KanjiRepository {
     return levelScore;
   }
 
-  static Future<void> updateKakuLevelBestScore(int score, int unit, int level) async {
+  static Future<void> updateKakuLevelBestScore(
+      int score, int unit, int level) async {
     db.rawUpdate('''UPDATE ${DBHelper.kakuScoreTable} 
     SET ${DBHelper.kakuScore} = ? 
-    WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''', [score, unit, level]);
-
+    WHERE ${DBHelper.unit} = ? AND ${DBHelper.level} = ?''',
+        [score, unit, level]);
   }
 
   Future<int> getAllLevelNumber(int index) async {
-    const List<String> tables = [DBHelper.yomuScoreTable, DBHelper.yomuScoreTable,
-      DBHelper.kakuScoreTable];
+    const List<String> tables = [
+      DBHelper.yomuScoreTable,
+      DBHelper.yomuScoreTable,
+      DBHelper.kakuScoreTable
+    ];
     String sql = 'SELECT COUNT(*) FROM ${tables[index]}';
 
     final data = await db.rawQuery(sql);
@@ -195,10 +223,16 @@ class KanjiRepository {
   }
 
   Future<int> getSumOfAllBestScore(int index) async {
-    const List<String> tables = [DBHelper.yomuScoreTable, DBHelper.yomuScoreTable,
-      DBHelper.kakuScoreTable];
-    const List<String> colums = [DBHelper.yomuScoreRead, DBHelper.yomuScoreTran,
-      DBHelper.kakuScore ];
+    const List<String> tables = [
+      DBHelper.yomuScoreTable,
+      DBHelper.yomuScoreTable,
+      DBHelper.kakuScoreTable
+    ];
+    const List<String> colums = [
+      DBHelper.yomuScoreRead,
+      DBHelper.yomuScoreTran,
+      DBHelper.kakuScore
+    ];
 
     String sql = 'SELECT SUM(${colums[index]}) FROM ${tables[index]}';
     final data = await db.rawQuery(sql);
@@ -207,5 +241,4 @@ class KanjiRepository {
     print(sum);
     return sum;
   }
-
 }
