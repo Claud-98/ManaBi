@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:manabi/widgets/gauge%20_pie_chart_widget.dart';
-import '../custom_colors.dart';
+import '../utils/custom_colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// HomeScreen - Menu principale dell'applicazione da cui è possibile navigare

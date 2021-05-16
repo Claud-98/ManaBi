@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:manabi/custom_colors.dart';
+import 'package:manabi/utils/custom_colors.dart';
 import 'package:manabi/models/kaku_kanji.dart';
 import 'package:manabi/widgets/kanji_details_box.dart';
 import 'package:manabi/widgets/video_player.dart';

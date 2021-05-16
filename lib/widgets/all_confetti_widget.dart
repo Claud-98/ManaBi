@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
-import 'package:manabi/custom_colors.dart';
+import 'package:manabi/utils/custom_colors.dart';
 
 class AllConfettiWidget extends StatefulWidget {
   final Widget  child;

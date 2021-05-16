@@ -31,12 +31,12 @@ dependencies:
   auto_size_text: ^2.1.0
   shared_preferences: ^2.0.5
   confetti: ^0.5.5
-  dio: ^4.0.0
+  dio: any
   video_player: ^2.1.1
   equatable: ^2.0.0
   flutter_riverpod: ^0.14.0+1
   percent_indicator: ^3.0.1
-
+  assets_audio_player: ^3.0.3+3
 
 #  animated_splash_screen: ^1.1.0
 
@@ -73,6 +73,8 @@ flutter:
     - assets/images/error_img.png
     - assets/images/HomeBackground.png
     - assets/images/HomeBackgroundRotated.png
+    - assets/audios/correct_answer.mp3
+    - assets/audios/wrong_answer.mp3
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:manabi/strings.dart' as strings;
+import 'package:manabi/utils/strings.dart' as strings;
 import 'package:dio/dio.dart';
 import 'package:manabi/models/kaku_kanji.dart';
 

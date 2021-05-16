@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:manabi/custom_colors.dart';
+import 'package:manabi/utils/custom_colors.dart';
 
 class KakuKanjiBox extends StatelessWidget {
   final String text;

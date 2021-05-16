@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manabi/screens/kaku__matching_game_screen.dart';
-import 'package:manabi/strings.dart' as strings;
+import 'package:manabi/utils/strings.dart' as strings;
 
 typedef void IntCallback(int id, int level);
 

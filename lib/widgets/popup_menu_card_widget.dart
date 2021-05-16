@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:manabi/screens/yomu_matching_game_screen.dart';
-import 'package:manabi/strings.dart' as strings;
+import 'package:manabi/utils/strings.dart' as strings;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PopUpMenuCard extends StatelessWidget {
@@ -55,8 +55,13 @@ class PopUpMenuCard extends StatelessWidget {
                             level: levelSelected,
                             translation: false)));
               },
-              child: AutoSizeText(translatedStrings.pronunciationUpperCase,
-                  textAlign: TextAlign.center, maxLines: 1, style: textStyle()),
+              child: AutoSizeText(
+                translatedStrings.pronunciationUpperCase,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                style: textStyle(),
+                minFontSize: 1,
+              ),
               color: color,
             ),
           ),
@@ -78,8 +83,13 @@ class PopUpMenuCard extends StatelessWidget {
                               )));
                 }
               },
-              child: AutoSizeText(translatedStrings.translationUpperCase,
-                  textAlign: TextAlign.center, maxLines: 1, style: textStyle()),
+              child: AutoSizeText(
+                translatedStrings.translationUpperCase,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                style: textStyle(),
+                minFontSize: 1,
+              ),
               color: color,
             ),
           ),
@@ -95,6 +105,7 @@ class PopUpMenuCard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 style: textStyle(),
+                minFontSize: 1,
               ),
               color: color,
             ),

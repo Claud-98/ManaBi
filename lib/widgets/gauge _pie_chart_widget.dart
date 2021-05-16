@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:manabi/custom_colors.dart';
+import 'package:manabi/utils/custom_colors.dart';
 import 'package:manabi/screens/error_screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

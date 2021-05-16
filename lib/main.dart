@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:manabi/custom_colors.dart';
+import 'package:manabi/utils/custom_colors.dart';
 import 'package:manabi/l10n/l10n.dart';
 import 'package:manabi/screens/home_screen.dart';
 import 'package:manabi/screens/game_level_menu.dart';
 import 'package:manabi/screens/settings_screen.dart';
 import 'package:manabi/services/dbhelper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:manabi/strings.dart' as strings;
+import 'package:manabi/utils/strings.dart' as strings;
 
 
 void main() async {

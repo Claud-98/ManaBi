@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:manabi/models/kaku_data_required_for_build.dart';
 import 'package:manabi/models/yomu_data_required_for_build.dart';
 import 'package:manabi/repositories/kanji_repository.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 /*Model that update the score*/
 class ScoreNotifier extends ChangeNotifier {
@@ -17,6 +18,7 @@ class ScoreNotifier extends ChangeNotifier {
   int get score => _score;
 
   void incrementScore() {
+    _reader(audioProvider).playMatchesSound();
     if (_reader(matchProvider).length == 1 && _perfect)
       _score = 100;
     else
@@ -25,6 +27,7 @@ class ScoreNotifier extends ChangeNotifier {
   }
 
   void decrementScore() {
+    _reader(audioProvider).playNotMatchesSound();
     _perfect = false;
     _score -= _subAfterNotMatch;
     notifyListeners();
@@ -217,11 +220,38 @@ class LevelInfoNotifier<T> extends ChangeNotifier {
   }
 }
 
-class UpdateProvider extends ChangeNotifier {
+class RefreshProvider extends ChangeNotifier {
   void forceRefreshGraphics(BuildContext context) {
     context.refresh(averageLevelScore(0));
     context.refresh(averageLevelScore(1));
     context.refresh(averageLevelScore(2));
+  }
+}
+
+class AudioNotifier extends ChangeNotifier {
+  //final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
+  final alarmCorrectAudioPath = "assets/audios/correct_answer.mp3";
+  final alarmWrongAudioPath = "assets/audios/wrong_answer.mp3";
+  final test = "audios/videoplayback.m4a";
+
+  void playMatchesSound() async {
+    playLocalAsset(alarmWrongAudioPath);
+  }
+
+  void playNotMatchesSound() async {
+   playLocalAsset(alarmWrongAudioPath);
+  }
+
+  void playLocalAsset(String path) async {
+    /*assetsAudioPlayer.open(
+      Audio(path),
+      autoStart: true,
+    );
+     */
+  }
+
+    @override dispose() {
+    super.dispose();
   }
 }
 
@@ -266,4 +296,6 @@ final averageLevelScore =
 final matchProvider =
     ChangeNotifierProvider.autoDispose((ref) => MatchNotifier(ref.read));
 
-final updateAverageProvider = Provider((ref) => UpdateProvider());
+final updateAverageProvider = Provider((ref) => RefreshProvider());
+
+final audioProvider = Provider.autoDispose((ref) => AudioNotifier());

@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:manabi/custom_colors.dart';
+import 'package:manabi/utils/custom_colors.dart';
 import 'package:manabi/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:manabi/screens/kanji_details_screen.dart';

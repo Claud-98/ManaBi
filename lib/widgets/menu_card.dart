@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:manabi/custom_colors.dart';
+import 'package:manabi/utils/custom_colors.dart';
 import 'package:manabi/widgets/menu_card_button_widget.dart';
 import 'package:manabi/widgets/menu_card_level_text_label.dart';
 import 'package:manabi/widgets/popup_menu_card_widget.dart';

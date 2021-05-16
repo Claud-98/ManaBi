@@ -9,7 +9,7 @@ import 'package:manabi/services/SharedPreferencesManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import '../services/dbhelper.dart';
-import 'package:manabi/strings.dart' as strings;
+import 'package:manabi/utils/strings.dart' as strings;
 
 class KanjiRepository {
   KakuKanjiApiProvider _apiProvider = KakuKanjiApiProvider();
